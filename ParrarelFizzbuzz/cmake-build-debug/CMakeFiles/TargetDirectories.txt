@@ -1,0 +1,3 @@
+D:/ProjektyWCplusplus/ParrarelFizzbuzz/cmake-build-debug/CMakeFiles/ParrarelFizzbuzz.dir
+D:/ProjektyWCplusplus/ParrarelFizzbuzz/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/ProjektyWCplusplus/ParrarelFizzbuzz/cmake-build-debug/CMakeFiles/rebuild_cache.dir
