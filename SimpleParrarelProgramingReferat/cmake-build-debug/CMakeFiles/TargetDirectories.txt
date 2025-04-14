@@ -1,0 +1,3 @@
+D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug/CMakeFiles/SimpleParrarelProgramingReferat.dir
+D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug/CMakeFiles/rebuild_cache.dir

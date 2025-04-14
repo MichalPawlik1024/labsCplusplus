@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\SimpleParrarelProgramingReferat.dir\\main.cpp.obj",
+            "outputs": [
+                "D:\\ProjektyWCplusplus\\SimpleParrarelProgramingReferat\\cmake-build-debug-visual-studio\\vc140.pdb",
+                "CMakeFiles\\SimpleParrarelProgramingReferat.dir\\main.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}

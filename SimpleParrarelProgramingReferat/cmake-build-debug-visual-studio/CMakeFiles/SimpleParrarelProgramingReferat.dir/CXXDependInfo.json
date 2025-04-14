@@ -1,0 +1,18 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "MSVC",
+	"compiler-id" : "MSVC",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug-visual-studio",
+	"dir-cur-src" : "D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat",
+	"dir-top-bld" : "D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug-visual-studio",
+	"dir-top-src" : "D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : [],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "D:/ProjektyWCplusplus/SimpleParrarelProgramingReferat/cmake-build-debug-visual-studio/CMakeFiles/SimpleParrarelProgramingReferat.dir"
+}
