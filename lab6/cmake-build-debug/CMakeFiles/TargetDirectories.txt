@@ -1,0 +1,3 @@
+C:/Users/Michał/edd9535b-gr71-repo/edd9535b-gr71-repo/lab6/cmake-build-debug/CMakeFiles/lab6.dir
+C:/Users/Michał/edd9535b-gr71-repo/edd9535b-gr71-repo/lab6/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Michał/edd9535b-gr71-repo/edd9535b-gr71-repo/lab6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
