@@ -1,0 +1,14 @@
+# Target labels
+ boost-populate
+# Source files and their labels
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate-complete.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-build.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-configure.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-download.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-install.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-mkdir.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-patch.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-test.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-update.rule

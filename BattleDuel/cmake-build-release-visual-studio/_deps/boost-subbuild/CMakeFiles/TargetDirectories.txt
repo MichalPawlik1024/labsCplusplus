@@ -1,0 +1,3 @@
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate.dir
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/edit_cache.dir
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/rebuild_cache.dir

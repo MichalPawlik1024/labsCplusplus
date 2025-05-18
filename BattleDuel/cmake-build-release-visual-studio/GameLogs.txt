@@ -1,0 +1,38 @@
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+Everything deallocated safely

@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/CMakeFiles/boost-populate-complete.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-build.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-configure.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-download.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-install.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-patch.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-test.rule"
+		},
+		{
+			"file" : "D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/boost-subbuild/boost-populate-prefix/src/boost-populate-stamp/boost-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"boost-populate"
+		],
+		"name" : "boost-populate"
+	}
+}
