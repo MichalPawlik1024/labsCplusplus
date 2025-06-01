@@ -1,0 +1,38 @@
+[
+  {
+    "text": "Attack",
+    "size": [100.0, 100.0],
+    "position": [300.0, 200.0]
+  },
+  {
+    "text": "Defense",
+    "size": [100.0, 100.0],
+    "position": [300.0, 350.0]
+  },
+  {
+    "text": "Health",
+    "size": [100.0, 100.0],
+    "position": [300.0, 500.0]
+  },
+  {
+    "text": "Go Back",
+    "size": [100.0, 100.0],
+    "position": [1000.0, 500.0]
+  },
+  {
+    "text": "Upgrade Weapon",
+    "size": [100.0, 100.0],
+    "position": [1000.0, 200.0]
+  },
+  {
+    "text": "Opponent LVL UP",
+    "size": [100.0, 100.0],
+    "position": [1000.0, 350.0]
+  },
+
+  {
+    "text": "Show Prices",
+    "size": [100.0, 100.0],
+    "position": [650.0, 650.0]
+  }
+]

@@ -34,6 +34,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-build/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/sfml-build/cmake_install.cmake")
 endif()
 

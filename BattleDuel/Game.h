@@ -4,9 +4,9 @@
 
 #ifndef GAME_H
 #define GAME_H
-#include "CrucialData.h"
-//#include "GameMechanicWidgets.h"
-//#include "CrucialData.h"
+#include"CrucialData.h"
+#include "UIFactory.h"
+
 
 class CompetingForAttack {
 public:
@@ -101,175 +101,6 @@ enum class Turn{User,Opponent};
 #define fs std::filesystem
 ///
 
-
-class DefaultButton : public TextDisplayer{
-    //TextDisplayer buttonText;
-    sf::RectangleShape outline;
-    sf::Vector2f size;
-public:
-    DefaultButton(std::string displayedText,double sizeX, double sizeY,double posX,
-        double posY):TextDisplayer("Assets/Minecraft/minecraft.ttf",displayedText,50,sf::Color::White,
-            posX,posY) {
-        setText(displayedText);
-        setColor(sf::Color::Black);
-        sf::FloatRect textBounds = TextDisplayer::getGlobalBounds();
-        if (sizeY < 30) sizeY = 50;
-        if (sizeX < textBounds.width + 40) sizeX = textBounds.width + 40;
-        size = sf::Vector2f(sizeX, sizeY);
-        outline.setSize(size);
-        outline.setFillColor(sf::Color::Green);
-        outline.setPosition(posX, posY);
-        float centerX = posX + (sizeX - textBounds.width) / 2.f;
-        float centerY = posY + (sizeY - textBounds.height) / 2.f;
-        setPosition(centerX, centerY);
-    }
-
-    virtual void draw(sf::RenderWindow * master) override {
-        master->draw(outline);
-        TextDisplayer::draw(master);
-    }
-    bool isClicked(sf::RenderWindow * master) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(*master);
-        sf::FloatRect bounds = outline.getGlobalBounds();
-        bool insideButton = bounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-        bool clicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-        if (insideButton && clicked) {
-            // std::cout << "Button " << displayName << " clicked!!!" << std::endl;
-            return true;
-        }
-        return false;
-    }
-    void setPosition(double posX, double posY) {
-        TextDisplayer::setPosition(posX,posY);
-        this->outline.setPosition(posX,posY);
-    }
-
-};
-
-class ListShower {
-    std::vector<DefaultButton*> options;
-    int page{0};
-    int maxButtonsPerPage{0};
-public:
-    ListShower(std::string baseDirectory,sf::RenderWindow * master) {
-        for (auto entry: std::filesystem::directory_iterator(std::filesystem::path(baseDirectory)) ) {
-            std::string saveName=entry.path().stem().string();
-            options.push_back(new DefaultButton(saveName,0.0,0.0,100.0,100.0));
-        }
-    }
-    void listOnWindow(sf::RenderWindow * master) {
-        int buttonHeight = 60;
-        int spacing = 10;
-        int startY = 50;
-        //maxButtonsPerPage = (master->getSize().y - startY) / (buttonHeight + spacing);
-        maxButtonsPerPage=4;
-        for (int i = 0; i < maxButtonsPerPage; i++) {
-            int index = page * maxButtonsPerPage + i;
-            if (index >= options.size()) break;
-            float posY = startY + i * (buttonHeight + spacing);
-            options[index]->setPosition(100, posY);
-        }
-
-    }
-    void resetBoundsOfPage() {
-        for (int i = 0; i < maxButtonsPerPage; i++) {
-            int index = page * maxButtonsPerPage + i;
-            options[index]->setPosition(0.0, 0.0);
-        }
-    }
-    void draw(sf::RenderWindow * master) {
-        for (int i=0;i<maxButtonsPerPage&&page*maxButtonsPerPage+i!=options.size(); i++) {
-            int index=page*maxButtonsPerPage+i;
-            options[index]->draw(master);
-        }
-    }
-    std::string handleEvents(sf::RenderWindow * master) {
-        for (int i=0;i<maxButtonsPerPage&&page*maxButtonsPerPage+i!=options.size();i++) {
-            if (options[page*maxButtonsPerPage+i]->isClicked(master)) {
-                return options[page*maxButtonsPerPage+i]->getText();
-            }
-        }
-        return "";
-    }
-    void nextPage(sf::RenderWindow * master) {
-        if ((page + 1) * maxButtonsPerPage < options.size()){  page++;
-            listOnWindow(master);
-        }
-    }
-
-    void prevPage(sf::RenderWindow * master) {
-        if (page > 0) {
-            page--;
-            listOnWindow(master);
-        };
-    }
-    ~ListShower() {
-        for (auto ptr: options) {
-            delete ptr;
-        }
-    }
-};
-
-class PopOutWindow {
-    DefaultButton okButton;
-    TextDisplayer message;
-    sf::RectangleShape background;
-public:
-    PopOutWindow(std::string info):okButton("OK",50,50,100,100),
-    message("Assets/minecraft/Minecraft.ttf",info,30,sf::Color::Black,
-        100.0f,150.0f){
-        background.setPosition(100.0f,100.0f);
-        background.setFillColor(sf::Color::White);
-        background.setOutlineColor(sf::Color::White);
-        background.setSize(sf::Vector2f(300.0f,200.0f));
-        message.setText(info);
-    }
-    void draw(sf::RenderWindow *window) {
-        window->draw(background);
-        message.draw(window);
-        okButton.draw(window);
-    }
-    void showDialog(sf::RenderWindow *window) {
-        bool running=true;
-
-        while (running) {
-            sf::Event event;
-            while (window->pollEvent(event)) {
-                if (okButton.isClicked(window))
-                    running=false;
-
-            }
-            window->clear();
-            draw(window);
-            window->display();
-
-        }
-
-    }
-    void showDialog(float width, float height,std::string title) {
-        auto *window = new sf::RenderWindow(sf::VideoMode(width,height),title);
-        window->setFramerateLimit(60);
-        background.setSize(sf::Vector2f(width,height));
-        background.setFillColor(sf::Color::White);
-        background.setPosition(0.0,0.0);
-        okButton.setPosition(width/2-50.f,height-50.0f);
-        this->message.setPosition(0.0f,10.0f);
-        while (window->isOpen()) {
-            sf::Event event;
-            while (window->pollEvent(event)) {
-                if (okButton.isClicked(window))
-                    window->close();
-            }
-            window->clear();
-            draw(window);
-            window->display();
-        }
-        delete window;
-    }
-
-};
-
-
 class Game {
     private:
         EventBinder eventsBinder;
@@ -283,8 +114,10 @@ class Game {
     }
     class UpgradeMenu {
         enum class ButtonType{attack,defense,maxHealth,goBack, weaponUpgrade, opponentUpgrade};
-        std::unordered_map<ButtonType,Button*> statsButton;
+        std::unordered_map<ButtonType,DefaultButton*> statsButton;
+        DefaultButton * showPricings;
         std::vector<TextDisplayer*>  statsText;
+        std::vector<GraphicalObject *> vanityUI;
         EventBinder binder;
         void statsTextReload() {
             statsText[0]->setText("Attack: "+GameWidgets::player->getAttack());
@@ -293,7 +126,8 @@ class Game {
             statsText[3]->setText("Bot attack: "+GameWidgets::oponent->getAttack());
             statsText[4]->setText("Bot defence: "+GameWidgets::oponent->getDefence());
             statsText[5]->setText("Bot max Health: "+std::to_string(GameWidgets::oponent->getMaxHealth()));
-
+            GameWidgets::moneyInfo->setText("Money: "+GameWidgets::player->getMoney());
+            GameWidgets::xpInfo->setText("Xp: "+GameWidgets::player->getXp());
         }
 
     public:
@@ -302,23 +136,27 @@ class Game {
 
       }
         void loadAssets() {
-          statsButton[ButtonType::attack]=new Button("Assets/incrementAttack.jpg",400.0f,100.0f,true);
-          statsButton[ButtonType::defense]=new Button("Assets/incrementDefence.jpg", 400.0f,300.0f,true);
-          statsButton[ButtonType::maxHealth]=new Button("Assets/incrementHealth.jpg",400.0f,500.0f,true);
-          statsButton[ButtonType::goBack]=new Button("Assets/goBackFromUpgradeWindow.jpg" , 400.0f,700.0f,true);
-          statsButton[ButtonType::weaponUpgrade]=new Button("Assets/upgradeWeapon.jpg",620.0f,500.0f,true);
-          statsButton[ButtonType::opponentUpgrade] = new Button("Assets/upgradeOpponent.jpg",620.0f,700.0f,true);
-          const std::string fontDirectory="Assets/Minecraft/minecraft.ttf";
-          for (int i=0;i<6;i++) {
-              statsText.push_back(new TextDisplayer(fontDirectory));
-          }
-          statsText[0]->setPosition(200.0,100.0);
-          statsText[1]->setPosition(200.0,300.0);
-          statsText[2]->setPosition(175.0,500.0);
-          statsText[3]->setPosition(1000.0,100.0);
-          statsText[4]->setPosition(1000.0,300.0);
-          statsText[5]->setPosition(1000.0,500.0);
-          statsTextReload();
+
+          auto btnAssets=JsonUILoader::loadFromJson("Assets/UI/upgradeWinConfigButtons.json",sf::Color(139,177,207),sf::Color::Black);
+          statsButton[ButtonType::attack]=btnAssets[0];
+          statsButton[ButtonType::defense]=btnAssets[1];
+          statsButton[ButtonType::maxHealth]=btnAssets[2];
+          statsButton[ButtonType::goBack]=btnAssets[3];
+          statsButton[ButtonType::weaponUpgrade]=btnAssets[4];
+          statsButton[ButtonType::opponentUpgrade]=btnAssets[5];
+          showPricings=btnAssets[6];
+          btnAssets.clear();
+          auto texts= JsonUILoader::loadTextDisplayersFromJson("Assets/UI/upgradeWinConfigText.json",
+          "Assets/Minecraft/minecraft.ttf",30,sf::Color::Green);
+          statsText.resize(texts.size());
+          statsText[0]=texts[0];
+          statsText[1]=texts[1];
+          statsText[2]=texts[2];
+          statsText[3]=texts[3];
+          statsText[4]=texts[4];
+          statsText[5]=texts[5];
+         statsTextReload();
+
           binder.bindAction(statsButton[ButtonType::attack],[this]() {
               if (std::stoi(GameWidgets::player->getXp())>=10) {
                   GameWidgets::player->incrementAttack();
@@ -337,8 +175,8 @@ class Game {
                   GameWidgets::xpInfo->setText("Xp: "+GameWidgets::player->getXp());
               }
               else
-                 PopOutWindow("Too litle xp!\n You need at least 10\n To upgrade").showDialog(300,300," ");
-          });
+                  PopOutWindow("Too litle xp!\n You need at least 10\n To upgrade").showDialog(300,300," ");
+           });
           binder.bindAction(statsButton[ButtonType::maxHealth],[this]() {
             if (std::stoi(GameWidgets::player->getXp())>=10) {
                 GameWidgets::player->incrementHealth();
@@ -359,44 +197,64 @@ class Game {
           binder.bindAction(statsButton[ButtonType::weaponUpgrade],[this]() {
               WeaponType tp=GameWidgets::playerWeapon->getType();
               WeaponUpgradeCenter center(tp);
+              sf::Vector2f pos=GameWidgets::playerWeapon->getPosition();
               GameWidgets::playerWeapon=center.newWeapon(GameWidgets::playerWeapon,GameWidgets::player);
+              GameWidgets::playerWeapon->setPosition(pos.x,pos.y);
           }) ;
           binder.bindAction(statsButton[ButtonType::opponentUpgrade],[this]() {
-              if (std::stoi(GameWidgets::player->getMoney())>=300&&
-                  std::stoi(GameWidgets::player->getXp())>40) {
-                  GameWidgets::oponent->incrementAttack();
-                  GameWidgets::oponent->incrementDefense();
-                  GameWidgets::oponent->incrementHealth();
-                  GameWidgets::player->decrementMoney(300);
-                  GameWidgets::player->decrementXp(40);
-                  GameWidgets::moneyInfo->setText("Money "+GameWidgets::player->getMoney());
-                  GameWidgets::xpInfo->setText("Xp "+GameWidgets::player->getXp());
-                  statsTextReload();
 
-              }
-              else
-                  PopOutWindow("You need at least \n 300 money & 40 xp").showDialog(300.0,300.0,"No money & xp");
+                  OpponentUpgradeCenter instance;
+                    instance.newOpponent(GameWidgets::oponent,GameWidgets::player);
+                  statsTextReload();
+               });
+          binder.bindAction(showPricings,[this]() {
+              int weaponPrice=WeaponUpgradeCenter::prices[GameWidgets::playerWeapon->getType()];
+              int lvl=GameWidgets::oponent->getLevel();
+              std::string message="Weapon Upgrade: \n"+std::to_string(weaponPrice);
+              message+="\n";
+              message+="Opponent level Up:\n";
+              message+="Money ";
+              message+=std::to_string(OpponentUpgradeCenter::moneyAndXpThresholds[lvl][0]);
+              message+="\n XP: ";
+              message+= std::to_string(OpponentUpgradeCenter::moneyAndXpThresholds[lvl][1]);;
+              PopOutWindow(message).showDialog(1000.f,1000.f,"Pricings");
+
           });
 
       }
 
         void drawAll(sf::RenderWindow * master) {
+            //external scene
+            GameWidgets::scenes[GameWidgets::SceneType::duelScene]->draw(master);
+            //external scene
             std::for_each(statsButton.begin(),statsButton.end(),[this,&master](auto & B) {
                 B.second->draw(master);
             });
             std::for_each(statsText.begin(),statsText.end(),[this,&master](auto & t) {
                 t->draw(master);
             });
+            //External Widgets
             GameWidgets::moneyInfo->draw(master);
             GameWidgets::xpInfo->draw(master);
             GameWidgets::playerWeapon->draw(master);
+            GameWidgets::oponentWeapon->draw(master);
+            std::for_each(GameWidgets::staticTexts.begin(),GameWidgets::staticTexts.end(),[&](auto & t) {
+                t->draw(master);
+            });
+            //External widgets
+            showPricings->draw(master);
       }
         void handleEvents(sf::RenderWindow * master) {
             std::for_each(statsButton.begin(),statsButton.end(),[this,&master](auto & B) {
                 if (B.second->isClicked(master))
                     binder.handleAction(B.second);
             });
-
+            if (showPricings->isClicked(master))
+                binder.handleAction(showPricings);
+            if (GameWidgets::oponentWeapon->isClicked(master))
+               PopOutWindow( GameWidgets::oponentWeapon->getInfo()).showDialog(300.0f,300.0f,"INFO");
+            if (GameWidgets::playerWeapon->isClicked(master))
+                PopOutWindow( GameWidgets::playerWeapon->getInfo()).showDialog(300.0f,300.0f,"INFO");
       }
         ~UpgradeMenu() {
           delete statsButton[ButtonType::attack];
@@ -440,7 +298,7 @@ class Game {
         std::string playerPath;
         std::string opponentPath;
         DataManager()=default;
-        void loadData(std::string directoryPath,sf::RenderWindow * window){
+        void loadData(std::string directoryPath,sf::RenderWindow * window) {
             ListShower lstShower(directoryPath,window);
             lstShower.listOnWindow(window);
             std::string chosenSave;
@@ -466,42 +324,81 @@ class Game {
 
             std::string path="Saves/"+chosenSave+"/playerData.txt";
             std::ifstream fileReader(path);
+            if (fileReader.is_open()) {
+                Logger::writeMessage("File is read properly");
+            }
             playerPath=path;
             std::future<void> loadOpponent=std::async(std::launch::async,[&chosenSave,this]() {
               std::ifstream fileR("Saves/"+chosenSave+"/opponentData.txt");
                 opponentPath="Saves/"+chosenSave+"/opponentData.txt";
-              //GameWidgets::oponent=new OldPlayer(fileR);
-              GameWidgets::oponent=new Fighter(fileR);
+
+                GameWidgets::oponent=new Fighter(fileR);
+
           });
-           // GameWidgets::player=new OldPlayer(fileReader);
+
             GameWidgets::player=new Player(fileReader);
-            //GameWidgets::oponent=new Player("CPU2000","Assets/opponentSkin.jpg", 1,1,0,0,100,100,1);
+
             loadOpponent.get();
+
+            GameWidgets::oponent-> setTexture(*OpponentUpgradeCenter::charactersTextures.at(
+                 GameWidgets::oponent->getLevel()));
+
+
             GameWidgets::playerNameText->setText(chosenSave);
-            GameWidgets::playerHealthBar=new HealthBar({120.0,20.0},
-        {200.0,300.0},GameWidgets::player->getMaxHealth());
-            GameWidgets::opponentHealthBar=new HealthBar({120.0,20.0},
-                {600.0,300.0},GameWidgets::oponent->getMaxHealth());
-            GameWidgets::playerHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
-              GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
-            GameWidgets::playerHealthInfo->setPosition(200.0,250.0);
-            GameWidgets::opponentHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
-            GameWidgets::opponentHealthInfo->setText("HP: "+GameWidgets::oponent->getHealth());
-            GameWidgets::opponentHealthInfo->setPosition(600.0,250.0);
-            GameWidgets::moneyInfo->setText("Money: "+GameWidgets::player->getMoney());
-            GameWidgets::xpInfo->setText("XP Points: "+GameWidgets::player->getXp());
-            GameWidgets::moneyInfo->setPosition(700.0,50.0);
-            GameWidgets::xpInfo->setPosition(100.0,50.0);
+
+            loadStaticElementsValues();
             std::string weaponPath=std::filesystem::path(playerPath).parent_path().string();
             std::string oponentWeaponPath=weaponPath;
             weaponPath+="/weaponData.json";
             oponentWeaponPath+="/opponentWeaponData.json";
             std::cout<<weaponPath<<"\n";
+
             nlohmann::json wJson;
             wJson= wJson.parse(std::ifstream(weaponPath));
             GameWidgets::playerWeapon->loadFromJson(wJson);
-            wJson=wJson.parse(std::ifstream(weaponPath));
+            wJson=wJson.parse(std::ifstream(oponentWeaponPath));
             GameWidgets::oponentWeapon->loadFromJson(wJson);
+            std::cout<<"Loading weapons ok!";
+
+
+            std::ifstream f("Assets/UI/main.json");
+            nlohmann::json data = nlohmann::json::parse(f);
+            loadWeaponPositions(data["duelScene"]["weapons"]["player"],GameWidgets::playerWeapon);
+            loadWeaponPositions(data["duelScene"]["weapons"]["opponent"],GameWidgets::oponentWeapon);
+
+            GameWidgets::player->setPosition(data["duelScene"]["fighters"]["player"]["x"],data["duelScene"]["fighters"]["player"]["y"]);
+            GameWidgets::oponent->setPosition(data["duelScene"]["fighters"]["opponent"]["x"],data["duelScene"]["fighters"]["opponent"]["y"]);
+            GameWidgets::opponentNameText->setText(OpponentUpgradeCenter::charactersNames[GameWidgets::oponent->getLevel()]);
+        }
+
+        void loadStaticElementsValues() {
+
+           /* GameWidgets::playerHealthBar=new HealthBar({120.0,20.0},
+        {200.0,300.0},GameWidgets::player->getMaxHealth());
+*/
+            GameWidgets::playerHealthBar->setAssociatedValue(GameWidgets::player->getMaxHealth());
+
+  /*          GameWidgets::opponentHealthBar=new HealthBar({120.0,20.0},
+
+                {600.0,300.0},GameWidgets::oponent->getMaxHealth());
+*/
+            GameWidgets::opponentHealthBar->setAssociatedValue(GameWidgets::oponent->getMaxHealth());
+
+            //GameWidgets::playerHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
+
+            GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
+
+            //GameWidgets::playerHealthInfo->setPosition(200.0,250.0);
+
+           // GameWidgets::opponentHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
+
+            GameWidgets::opponentHealthInfo->setText("HP: "+GameWidgets::oponent->getHealth());
+
+            //GameWidgets::opponentHealthInfo->setPosition(600.0,250.0);
+
+            GameWidgets::moneyInfo->setText("Money: "+GameWidgets::player->getMoney());
+
+            GameWidgets::xpInfo->setText("XP Points: "+GameWidgets::player->getXp());
 
         }
         void createData(sf::RenderWindow * window) {
@@ -528,25 +425,17 @@ class Game {
                         "Try again");
                 }
             }
-           // GameWidgets::player=new OldPlayer(name,"Assets/playerSkin.jpg",5,3,0,0,100,100,0);
-          //  GameWidgets::oponent=new OldPlayer("CPU2000","Assets/opponentSkin.jpg",1,1,0,0,100,100,1);
             GameWidgets::player=new Player(name,"Assets/playerSkin.jpg",5,3,100,100,0,1,0,0,0);
             GameWidgets::oponent=new Fighter("CPU2000","Assets/opponentSkin.jpg",1,1,100,100,1,1,0, 0 );
+
             GameWidgets::playerNameText->setText(name);
-            GameWidgets::playerHealthBar=new HealthBar({120.0,20.0},
-        {200.0,300.0},GameWidgets::player->getMaxHealth());
-            GameWidgets::opponentHealthBar=new HealthBar({120.0,20.0},
-                {600.0,300.0},GameWidgets::oponent->getMaxHealth());
-            GameWidgets::playerHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
-            GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
-            GameWidgets::playerHealthInfo->setPosition(200.0,250.0);
-            GameWidgets::opponentHealthInfo=new TextDisplayer("Assets/Minecraft/minecraft.ttf");
-            GameWidgets::opponentHealthInfo->setText("HP: "+GameWidgets::oponent->getHealth());
-            GameWidgets::opponentHealthInfo->setPosition(600.0,250.0);
-            GameWidgets::moneyInfo->setText("Money: "+GameWidgets::player->getMoney());
-            GameWidgets::xpInfo->setText("XP Points: "+GameWidgets::player->getXp());
-            GameWidgets::moneyInfo->setPosition(700.0,50.0);
-            GameWidgets::xpInfo->setPosition(100.0,50.0);
+
+            loadStaticElementsValues();
+
+            std::ifstream f("Assets/UI/main.json");
+            nlohmann::json data = nlohmann::json::parse(f);
+            loadWeaponPositions(data["duelScene"]["weapons"]["player"],GameWidgets::playerWeapon);
+            loadWeaponPositions(data["duelScene"]["weapons"]["opponent"],GameWidgets::oponentWeapon);
 
 
              }
@@ -572,6 +461,8 @@ class Game {
             saveOpponentData.get();
 
         }
+
+
 
     };
     DataManager dataManager;
@@ -599,12 +490,15 @@ class Game {
            competingForAttack.tura.notify_all();
        });
         eventsBinder.bindAction(GameWidgets::loadGame,[this]() {
-            dataManager.loadData("Saves",&gameWindow);
+                dataManager.loadData("Saves",&gameWindow);
+            std::cout<<"Ok";
                 ///TODO make other logic for now this
                // dataManager.createPlayerData(&gameWindow);
                 GameWidgets::newGame->deactivate();
+                GameWidgets::saveAndExit->deactivate();
                 currentScene=GameWidgets::SceneType::duelScene;
                 GameWidgets::attackButton->activate();
+                std::cout<<"Working here";
                 PopOutWindow popOut("To start round\n click attack\n ");
                 popOut.showDialog(&gameWindow);
                 PopOutWindow popOut2("To attack press A\n");
@@ -616,6 +510,7 @@ class Game {
         eventsBinder.bindAction(GameWidgets::newGame,[this]() {
             dataManager.createData(&gameWindow);
                 GameWidgets::newGame->deactivate();
+                GameWidgets::saveAndExit->deactivate();
                 currentScene=GameWidgets::SceneType::duelScene;
                 upgradeMenu.loadAssets();
                 GameWidgets::attackButton->activate();
@@ -640,7 +535,7 @@ class Game {
 
         sf::Event event;
         static int releaseConter=0;
-
+        static int releaseCounterB=0;
         while (gameWindow.pollEvent(event)) {
             if (event.type==sf::Event::KeyPressed&&event.key.code==sf::Keyboard::S) {
                 handleUpgradeWindow();
@@ -666,6 +561,16 @@ class Game {
                         releaseConter--;
                     }).detach();
              releaseConter++;
+                }
+            }
+            if (GameWidgets::oponentWeapon->isClicked(&gameWindow)) {
+                if (releaseCounterB<1) {
+                    std::thread([&]() {
+                        PopOutWindow(GameWidgets::oponentWeapon->getInfo()).showDialog(
+                            350.0f,350.0f,"why");
+                        releaseConter--;
+                    }).detach();
+                    releaseCounterB++;
                 }
             }
         }
@@ -724,6 +629,7 @@ class Game {
                 else  {
                     competingForAttack.playerPressed=false;
                     bool fightResult=GameWidgets::oponent->fight(GameWidgets::player,GameWidgets::opponentDice->roll(&gameWindow));
+                    GameWidgets::oponentWeapon->attackAnimation(&gameWindow,1);
                     GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
                     if (fightResult) {
                         GameWidgets::resultDisplayer->drawResult(false,&gameWindow);

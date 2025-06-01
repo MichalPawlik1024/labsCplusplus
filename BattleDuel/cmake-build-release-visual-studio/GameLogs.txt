@@ -1,10 +1,4 @@
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-opponent attacked
-end 
-start nowej rundy 
+File is read properlystart nowej rundy 
 player attacked
 end 
 start nowej rundy 
@@ -17,7 +11,7 @@ start nowej rundy
 opponent attacked
 end 
 start nowej rundy 
-opponent attacked
+player attacked
 end 
 start nowej rundy 
 player attacked
@@ -29,7 +23,76 @@ start nowej rundy
 opponent attacked
 end 
 start nowej rundy 
+player attacked
+end 
+start nowej rundy 
 opponent attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+player attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+opponent attacked
+end 
+start nowej rundy 
+player attacked
 end 
 start nowej rundy 
 player attacked

@@ -31,6 +31,7 @@ class GraphicalObject : public BasicWidget {
     sf::Texture texture;
 public:
     GraphicalObject(std::string texturePath, float posX, float posY):BasicWidget() {
+        sf::Image image;
         texture.loadFromFile(texturePath);
         sprite.setTexture(texture);
         sprite.setPosition(posX, posY);
@@ -52,12 +53,58 @@ public:
         return false;
     }
    virtual  void setTexture(sf::Texture & texture) {
-        sprite.setTexture(texture);
+        this->texture = texture;
+        sprite.setTexture(this->texture);
     }
-    void setPosition(float posX, float posY) {
+    virtual void setPosition(float posX, float posY) {
         sprite.setPosition(posX, posY);
     }
+     virtual void setMask(sf::Color color) {
+        sf::Image img=texture.copyToImage();
 
+        img.createMaskFromColor(color);
+        for (int i=0;i<img.getSize().x;i++) {
+            for (int j=0;j<img.getSize().y;j++) {
+                if (img.getPixel(i,j)==color) {
+                    img.setPixel(i,j,sf::Color::Black);
+
+                }
+            }
+        }
+        texture.loadFromImage(img);
+
+    }
+    virtual sf::Vector2f getPosition() {
+        return sprite.getPosition();
+    }
+    virtual void rotate(float rotationAngle) {
+        this->sprite.rotate(rotationAngle);
+    }
+    virtual sf::Vector2u getSize() {
+        return texture.getSize();
+    }
+    virtual void flip() {
+        sf::Image image = texture.copyToImage();
+
+        unsigned int width = image.getSize().x;
+        unsigned int height = image.getSize().y;
+
+        sf::Image flippedImage;
+        flippedImage.create(width, height);
+
+        for (unsigned int y = 0; y < height; ++y) {
+            for (unsigned int x = 0; x < width; ++x) {
+                flippedImage.setPixel(width - x - 1, y, image.getPixel(x, y));
+            }
+        }
+
+        texture.loadFromImage(flippedImage);
+        sprite.setTexture(texture);
+
+    }
+    void setRotation(float angle) {
+        sprite.setRotation(angle);
+    }
     virtual ~GraphicalObject() {}
 };
 

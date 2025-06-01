@@ -1,0 +1,14 @@
+# Target labels
+ miniaudio-populate
+# Source files and their labels
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/CMakeFiles/miniaudio-populate
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/CMakeFiles/miniaudio-populate.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/CMakeFiles/miniaudio-populate-complete.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-build.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-configure.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-download.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-install.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-mkdir.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-patch.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-test.rule
+D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-subbuild/miniaudio-populate-prefix/src/miniaudio-populate-stamp/miniaudio-populate-update.rule

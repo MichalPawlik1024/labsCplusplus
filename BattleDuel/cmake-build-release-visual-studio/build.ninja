@@ -47,21 +47,21 @@ cmake_ninja_workdir = D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visu
 #############################################
 # Order-only phony target for BattleDuel
 
-build cmake_object_order_depends_target_BattleDuel: phony || cmake_object_order_depends_target_sfml-audio cmake_object_order_depends_target_sfml-graphics cmake_object_order_depends_target_sfml-system cmake_object_order_depends_target_sfml-window
+build cmake_object_order_depends_target_BattleDuel: phony || cmake_object_order_depends_target_miniaudio cmake_object_order_depends_target_sfml-audio cmake_object_order_depends_target_sfml-graphics cmake_object_order_depends_target_sfml-system cmake_object_order_depends_target_sfml-window
 
 build CMakeFiles\BattleDuel.dir\main.cpp.obj: CXX_COMPILER__BattleDuel_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\main.cpp || cmake_object_order_depends_target_BattleDuel
   DEFINES = -DSFML_STATIC
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD
-  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\sfml-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\json-src\include
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\sfml-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\json-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src
   OBJECT_DIR = CMakeFiles\BattleDuel.dir
   OBJECT_FILE_DIR = CMakeFiles\BattleDuel.dir
   TARGET_COMPILE_PDB = CMakeFiles\BattleDuel.dir\
   TARGET_PDB = BattleDuel.pdb
 
-build CMakeFiles\BattleDuel.dir\fighterDef.cpp.obj: CXX_COMPILER__BattleDuel_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\fighterDef.cpp || cmake_object_order_depends_target_BattleDuel
+build CMakeFiles\BattleDuel.dir\soundDef.cpp.obj: CXX_COMPILER__BattleDuel_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\soundDef.cpp || cmake_object_order_depends_target_BattleDuel
   DEFINES = -DSFML_STATIC
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MD
-  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\sfml-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\json-src\include
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\sfml-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\json-src\include -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src
   OBJECT_DIR = CMakeFiles\BattleDuel.dir
   OBJECT_FILE_DIR = CMakeFiles\BattleDuel.dir
   TARGET_COMPILE_PDB = CMakeFiles\BattleDuel.dir\
@@ -75,10 +75,10 @@ build CMakeFiles\BattleDuel.dir\fighterDef.cpp.obj: CXX_COMPILER__BattleDuel_uns
 #############################################
 # Link the executable BattleDuel.exe
 
-build BattleDuel.exe: CXX_EXECUTABLE_LINKER__BattleDuel_Release CMakeFiles\BattleDuel.dir\main.cpp.obj CMakeFiles\BattleDuel.dir\fighterDef.cpp.obj | _deps\sfml-build\lib\sfml-graphics-s.lib _deps\sfml-build\lib\sfml-audio-s.lib _deps\sfml-build\lib\sfml-window-s.lib _deps\sfml-build\lib\sfml-system-s.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib || _deps\sfml-build\lib\sfml-audio-s.lib _deps\sfml-build\lib\sfml-graphics-s.lib _deps\sfml-build\lib\sfml-system-s.lib _deps\sfml-build\lib\sfml-window-s.lib
+build BattleDuel.exe: CXX_EXECUTABLE_LINKER__BattleDuel_Release CMakeFiles\BattleDuel.dir\main.cpp.obj CMakeFiles\BattleDuel.dir\soundDef.cpp.obj | _deps\sfml-build\lib\sfml-graphics-s.lib _deps\sfml-build\lib\sfml-audio-s.lib _deps\sfml-build\lib\sfml-window-s.lib _deps\sfml-build\lib\sfml-system-s.lib _deps\miniaudio-build\miniaudio.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib _deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib || _deps\miniaudio-build\miniaudio.lib _deps\sfml-build\lib\sfml-audio-s.lib _deps\sfml-build\lib\sfml-graphics-s.lib _deps\sfml-build\lib\sfml-system-s.lib _deps\sfml-build\lib\sfml-window-s.lib
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -MD
   LINK_FLAGS = /machine:x64 /INCREMENTAL:NO /subsystem:console
-  LINK_LIBRARIES = _deps\sfml-build\lib\sfml-graphics-s.lib  _deps\sfml-build\lib\sfml-audio-s.lib  _deps\sfml-build\lib\sfml-window-s.lib  _deps\sfml-build\lib\sfml-system-s.lib  opengl32.lib  gdi32.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib  winmm.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = _deps\sfml-build\lib\sfml-graphics-s.lib  _deps\sfml-build\lib\sfml-audio-s.lib  _deps\sfml-build\lib\sfml-window-s.lib  _deps\sfml-build\lib\sfml-system-s.lib  _deps\miniaudio-build\miniaudio.lib  opengl32.lib  gdi32.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\freetype.lib  winmm.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\openal32.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisenc.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbisfile.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\vorbis.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\ogg.lib  _deps\sfml-src\extlibs\libs-msvc-universal\x64\flac.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\BattleDuel.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -163,6 +163,298 @@ build CMakeFiles\install\local.util: CUSTOM_COMMAND all
   restat = 1
 
 build install\local: phony CMakeFiles\install\local.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# D:/ProjektyWCplusplus/BattleDuel/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio
+
+
+#############################################
+# Order-only phony target for miniaudio
+
+build cmake_object_order_depends_target_miniaudio: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio.dir\miniaudio.c.obj: C_COMPILER__miniaudio_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\miniaudio.c || cmake_object_order_depends_target_miniaudio
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio.dir
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio.dir\miniaudio.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio.lib
+
+build _deps\miniaudio-build\miniaudio.lib: C_STATIC_LIBRARY_LINKER__miniaudio_Release _deps\miniaudio-build\CMakeFiles\miniaudio.dir\miniaudio.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio.dir\miniaudio.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio.pdb
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio_channel_combiner_node
+
+
+#############################################
+# Order-only phony target for miniaudio_channel_combiner_node
+
+build cmake_object_order_depends_target_miniaudio_channel_combiner_node: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir\extras\nodes\ma_channel_combiner_node\ma_channel_combiner_node.c.obj: C_COMPILER__miniaudio_channel_combiner_node_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_channel_combiner_node\ma_channel_combiner_node.c || cmake_object_order_depends_target_miniaudio_channel_combiner_node
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_channel_combiner_node
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir\extras\nodes\ma_channel_combiner_node
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir\miniaudio_channel_combiner_node.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_channel_combiner_node.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio_channel_combiner_node
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio_channel_combiner_node.lib
+
+build _deps\miniaudio-build\miniaudio_channel_combiner_node.lib: C_STATIC_LIBRARY_LINKER__miniaudio_channel_combiner_node_Release _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir\extras\nodes\ma_channel_combiner_node\ma_channel_combiner_node.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_combiner_node.dir\miniaudio_channel_combiner_node.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio_channel_combiner_node.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_channel_combiner_node.pdb
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio_channel_separator_node
+
+
+#############################################
+# Order-only phony target for miniaudio_channel_separator_node
+
+build cmake_object_order_depends_target_miniaudio_channel_separator_node: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir\extras\nodes\ma_channel_separator_node\ma_channel_separator_node.c.obj: C_COMPILER__miniaudio_channel_separator_node_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_channel_separator_node\ma_channel_separator_node.c || cmake_object_order_depends_target_miniaudio_channel_separator_node
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_channel_separator_node
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir\extras\nodes\ma_channel_separator_node
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir\miniaudio_channel_separator_node.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_channel_separator_node.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio_channel_separator_node
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio_channel_separator_node.lib
+
+build _deps\miniaudio-build\miniaudio_channel_separator_node.lib: C_STATIC_LIBRARY_LINKER__miniaudio_channel_separator_node_Release _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir\extras\nodes\ma_channel_separator_node\ma_channel_separator_node.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_channel_separator_node.dir\miniaudio_channel_separator_node.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio_channel_separator_node.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_channel_separator_node.pdb
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio_ltrim_node
+
+
+#############################################
+# Order-only phony target for miniaudio_ltrim_node
+
+build cmake_object_order_depends_target_miniaudio_ltrim_node: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir\extras\nodes\ma_ltrim_node\ma_ltrim_node.c.obj: C_COMPILER__miniaudio_ltrim_node_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_ltrim_node\ma_ltrim_node.c || cmake_object_order_depends_target_miniaudio_ltrim_node
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_ltrim_node
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir\extras\nodes\ma_ltrim_node
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir\miniaudio_ltrim_node.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_ltrim_node.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio_ltrim_node
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio_ltrim_node.lib
+
+build _deps\miniaudio-build\miniaudio_ltrim_node.lib: C_STATIC_LIBRARY_LINKER__miniaudio_ltrim_node_Release _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir\extras\nodes\ma_ltrim_node\ma_ltrim_node.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_ltrim_node.dir\miniaudio_ltrim_node.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio_ltrim_node.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_ltrim_node.pdb
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio_reverb_node
+
+
+#############################################
+# Order-only phony target for miniaudio_reverb_node
+
+build cmake_object_order_depends_target_miniaudio_reverb_node: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir\extras\nodes\ma_reverb_node\ma_reverb_node.c.obj: C_COMPILER__miniaudio_reverb_node_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_reverb_node\ma_reverb_node.c || cmake_object_order_depends_target_miniaudio_reverb_node
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_reverb_node
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir\extras\nodes\ma_reverb_node
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir\miniaudio_reverb_node.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_reverb_node.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio_reverb_node
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio_reverb_node.lib
+
+build _deps\miniaudio-build\miniaudio_reverb_node.lib: C_STATIC_LIBRARY_LINKER__miniaudio_reverb_node_Release _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir\extras\nodes\ma_reverb_node\ma_reverb_node.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_reverb_node.dir\miniaudio_reverb_node.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio_reverb_node.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_reverb_node.pdb
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target miniaudio_vocoder_node
+
+
+#############################################
+# Order-only phony target for miniaudio_vocoder_node
+
+build cmake_object_order_depends_target_miniaudio_vocoder_node: phony || .
+
+build _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir\extras\nodes\ma_vocoder_node\ma_vocoder_node.c.obj: C_COMPILER__miniaudio_vocoder_node_unscanned_Release D$:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_vocoder_node\ma_vocoder_node.c || cmake_object_order_depends_target_miniaudio_vocoder_node
+  FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  INCLUDES = -ID:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-src\extras\nodes\ma_vocoder_node
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir
+  OBJECT_FILE_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir\extras\nodes\ma_vocoder_node
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir\miniaudio_vocoder_node.pdb
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_vocoder_node.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target miniaudio_vocoder_node
+
+
+#############################################
+# Link the static library _deps\miniaudio-build\miniaudio_vocoder_node.lib
+
+build _deps\miniaudio-build\miniaudio_vocoder_node.lib: C_STATIC_LIBRARY_LINKER__miniaudio_vocoder_node_Release _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir\extras\nodes\ma_vocoder_node\ma_vocoder_node.c.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /O2 /Ob2 /DNDEBUG -MD
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = _deps\miniaudio-build\CMakeFiles\miniaudio_vocoder_node.dir\miniaudio_vocoder_node.pdb
+  TARGET_FILE = _deps\miniaudio-build\miniaudio_vocoder_node.lib
+  TARGET_PDB = _deps\miniaudio-build\miniaudio_vocoder_node.pdb
+
+
+#############################################
+# Utility command for package
+
+build _deps\miniaudio-build\CMakeFiles\package.util: CUSTOM_COMMAND _deps\miniaudio-build\all
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cpack.exe --config ./CPackConfig.cmake"
+  DESC = Run CPack packaging tool...
+  pool = console
+  restat = 1
+
+build _deps\miniaudio-build\package: phony _deps\miniaudio-build\CMakeFiles\package.util
+
+
+#############################################
+# Utility command for package_source
+
+build _deps\miniaudio-build\CMakeFiles\package_source.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cpack.exe --config ./CPackSourceConfig.cmake D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/CPackSourceConfig.cmake"
+  DESC = Run CPack packaging tool for source...
+  pool = console
+  restat = 1
+
+build _deps\miniaudio-build\package_source: phony _deps\miniaudio-build\CMakeFiles\package_source.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps\miniaudio-build\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-build && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps\miniaudio-build\edit_cache: phony _deps\miniaudio-build\CMakeFiles\edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps\miniaudio-build\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-build && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe --regenerate-during-build -SD:\ProjektyWCplusplus\BattleDuel -BD:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps\miniaudio-build\rebuild_cache: phony _deps\miniaudio-build\CMakeFiles\rebuild_cache.util
+
+
+#############################################
+# Utility command for list_install_components
+
+build _deps\miniaudio-build\list_install_components: phony
+
+
+#############################################
+# Utility command for install
+
+build _deps\miniaudio-build\CMakeFiles\install.util: CUSTOM_COMMAND _deps\miniaudio-build\all
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-build && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -P cmake_install.cmake"
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build _deps\miniaudio-build\install: phony _deps\miniaudio-build\CMakeFiles\install.util
+
+
+#############################################
+# Utility command for install/local
+
+build _deps\miniaudio-build\CMakeFiles\install\local.util: CUSTOM_COMMAND _deps\miniaudio-build\all
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D D:\ProjektyWCplusplus\BattleDuel\cmake-build-release-visual-studio\_deps\miniaudio-build && C:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build _deps\miniaudio-build\install\local: phony _deps\miniaudio-build\CMakeFiles\install\local.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -2005,6 +2297,30 @@ build _deps\json-build\install\local: phony _deps\json-build\CMakeFiles\install\
 
 build BattleDuel: phony BattleDuel.exe
 
+build miniaudio: phony _deps\miniaudio-build\miniaudio.lib
+
+build miniaudio.lib: phony _deps\miniaudio-build\miniaudio.lib
+
+build miniaudio_channel_combiner_node: phony _deps\miniaudio-build\miniaudio_channel_combiner_node.lib
+
+build miniaudio_channel_combiner_node.lib: phony _deps\miniaudio-build\miniaudio_channel_combiner_node.lib
+
+build miniaudio_channel_separator_node: phony _deps\miniaudio-build\miniaudio_channel_separator_node.lib
+
+build miniaudio_channel_separator_node.lib: phony _deps\miniaudio-build\miniaudio_channel_separator_node.lib
+
+build miniaudio_ltrim_node: phony _deps\miniaudio-build\miniaudio_ltrim_node.lib
+
+build miniaudio_ltrim_node.lib: phony _deps\miniaudio-build\miniaudio_ltrim_node.lib
+
+build miniaudio_reverb_node: phony _deps\miniaudio-build\miniaudio_reverb_node.lib
+
+build miniaudio_reverb_node.lib: phony _deps\miniaudio-build\miniaudio_reverb_node.lib
+
+build miniaudio_vocoder_node: phony _deps\miniaudio-build\miniaudio_vocoder_node.lib
+
+build miniaudio_vocoder_node.lib: phony _deps\miniaudio-build\miniaudio_vocoder_node.lib
+
 build sfml-audio: phony _deps\sfml-build\lib\sfml-audio-s.lib
 
 build sfml-audio-s.lib: phony _deps\sfml-build\lib\sfml-audio-s.lib
@@ -2037,7 +2353,7 @@ build sfml-window-s.lib: phony _deps\sfml-build\lib\sfml-window-s.lib
 #############################################
 # Folder: D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio
 
-build all: phony BattleDuel.exe _deps\sfml-build\all _deps\json-build\all
+build all: phony BattleDuel.exe _deps\miniaudio-build\all _deps\sfml-build\all _deps\json-build\all
 
 # =============================================================================
 
@@ -2045,6 +2361,13 @@ build all: phony BattleDuel.exe _deps\sfml-build\all _deps\json-build\all
 # Folder: D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/json-build
 
 build _deps\json-build\all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: D:/ProjektyWCplusplus/BattleDuel/cmake-build-release-visual-studio/_deps/miniaudio-build
+
+build _deps\miniaudio-build\all: phony _deps\miniaudio-build\miniaudio.lib _deps\miniaudio-build\miniaudio_channel_combiner_node.lib _deps\miniaudio-build\miniaudio_channel_separator_node.lib _deps\miniaudio-build\miniaudio_ltrim_node.lib _deps\miniaudio-build\miniaudio_reverb_node.lib _deps\miniaudio-build\miniaudio_vocoder_node.lib
 
 # =============================================================================
 
@@ -2109,14 +2432,14 @@ build _deps\sfml-build\src\SFML\Window\all: phony _deps\sfml-build\lib\sfml-wind
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\BasicConfigVersion-SameMajorVersion.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCXXInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeGenericSystem.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeInitializeConfigs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeLanguageInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakePackageConfigHelpers.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeParseArguments.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeRCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPack.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPackComponent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFileCXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckTypeSize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject\shared_internal_commands.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent\CMakeLists.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindGit.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindOpenGL.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageMessage.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\GNUInstallDirs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-Initialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\WindowsPaths.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\WriteBasicConfigVersionFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Templates\CPackConfig.cmake.in CMakeCache.txt CMakeFiles\3.30.5\CMakeCCompiler.cmake CMakeFiles\3.30.5\CMakeCXXCompiler.cmake CMakeFiles\3.30.5\CMakeRCCompiler.cmake CMakeFiles\3.30.5\CMakeSystem.cmake D$:\ProjektyWCplusplus\BattleDuel\CMakeLists.txt _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in _deps\sfml-src\CMakeLists.txt _deps\sfml-src\cmake\CompilerWarnings.cmake _deps\sfml-src\cmake\Config.cmake _deps\sfml-src\cmake\Macros.cmake _deps\sfml-src\cmake\Modules\FindFLAC.cmake _deps\sfml-src\cmake\Modules\FindFreetype.cmake _deps\sfml-src\cmake\Modules\FindOpenAL.cmake _deps\sfml-src\cmake\Modules\FindVORBIS.cmake _deps\sfml-src\cmake\SFMLConfig.cmake.in _deps\sfml-src\cmake\SFMLConfigDependencies.cmake.in _deps\sfml-src\src\SFML\Audio\CMakeLists.txt _deps\sfml-src\src\SFML\CMakeLists.txt _deps\sfml-src\src\SFML\Graphics\CMakeLists.txt _deps\sfml-src\src\SFML\Main\CMakeLists.txt _deps\sfml-src\src\SFML\Network\CMakeLists.txt _deps\sfml-src\src\SFML\System\CMakeLists.txt _deps\sfml-src\src\SFML\Window\CMakeLists.txt
+build build.ninja: RERUN_CMAKE | C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\BasicConfigVersion-SameMajorVersion.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCXXInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeGenericSystem.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeInitializeConfigs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeLanguageInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakePackageConfigHelpers.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeParseArguments.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeRCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPack.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPackComponent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFileCXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckTypeSize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject\shared_internal_commands.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent\CMakeLists.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindGit.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindOpenGL.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageMessage.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\GNUInstallDirs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-Initialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\WindowsPaths.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\WriteBasicConfigVersionFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Templates\CPackConfig.cmake.in CMakeCache.txt CMakeFiles\3.30.5\CMakeCCompiler.cmake CMakeFiles\3.30.5\CMakeCXXCompiler.cmake CMakeFiles\3.30.5\CMakeRCCompiler.cmake CMakeFiles\3.30.5\CMakeSystem.cmake D$:\ProjektyWCplusplus\BattleDuel\CMakeLists.txt _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in _deps\miniaudio-src\CMakeLists.txt _deps\sfml-src\CMakeLists.txt _deps\sfml-src\cmake\CompilerWarnings.cmake _deps\sfml-src\cmake\Config.cmake _deps\sfml-src\cmake\Macros.cmake _deps\sfml-src\cmake\Modules\FindFLAC.cmake _deps\sfml-src\cmake\Modules\FindFreetype.cmake _deps\sfml-src\cmake\Modules\FindOpenAL.cmake _deps\sfml-src\cmake\Modules\FindVORBIS.cmake _deps\sfml-src\cmake\SFMLConfig.cmake.in _deps\sfml-src\cmake\SFMLConfigDependencies.cmake.in _deps\sfml-src\src\SFML\Audio\CMakeLists.txt _deps\sfml-src\src\SFML\CMakeLists.txt _deps\sfml-src\src\SFML\Graphics\CMakeLists.txt _deps\sfml-src\src\SFML\Main\CMakeLists.txt _deps\sfml-src\src\SFML\Network\CMakeLists.txt _deps\sfml-src\src\SFML\System\CMakeLists.txt _deps\sfml-src\src\SFML\Window\CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\BasicConfigVersion-SameMajorVersion.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCXXInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeGenericSystem.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeInitializeConfigs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeLanguageInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakePackageConfigHelpers.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeParseArguments.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeRCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPack.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPackComponent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFileCXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckTypeSize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject\shared_internal_commands.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent\CMakeLists.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindGit.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindOpenGL.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageMessage.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\GNUInstallDirs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-Initialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\WindowsPaths.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\WriteBasicConfigVersionFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Templates\CPackConfig.cmake.in CMakeCache.txt CMakeFiles\3.30.5\CMakeCCompiler.cmake CMakeFiles\3.30.5\CMakeCXXCompiler.cmake CMakeFiles\3.30.5\CMakeRCCompiler.cmake CMakeFiles\3.30.5\CMakeSystem.cmake D$:\ProjektyWCplusplus\BattleDuel\CMakeLists.txt _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in _deps\sfml-src\CMakeLists.txt _deps\sfml-src\cmake\CompilerWarnings.cmake _deps\sfml-src\cmake\Config.cmake _deps\sfml-src\cmake\Macros.cmake _deps\sfml-src\cmake\Modules\FindFLAC.cmake _deps\sfml-src\cmake\Modules\FindFreetype.cmake _deps\sfml-src\cmake\Modules\FindOpenAL.cmake _deps\sfml-src\cmake\Modules\FindVORBIS.cmake _deps\sfml-src\cmake\SFMLConfig.cmake.in _deps\sfml-src\cmake\SFMLConfigDependencies.cmake.in _deps\sfml-src\src\SFML\Audio\CMakeLists.txt _deps\sfml-src\src\SFML\CMakeLists.txt _deps\sfml-src\src\SFML\Graphics\CMakeLists.txt _deps\sfml-src\src\SFML\Main\CMakeLists.txt _deps\sfml-src\src\SFML\Network\CMakeLists.txt _deps\sfml-src\src\SFML\System\CMakeLists.txt _deps\sfml-src\src\SFML\Window\CMakeLists.txt: phony
+build C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\BasicConfigVersion-SameMajorVersion.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCXXInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeGenericSystem.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeInitializeConfigs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeLanguageInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakePackageConfigHelpers.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeParseArguments.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeRCInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPack.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CPackComponent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckIncludeFileCXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\CheckTypeSize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Compiler\MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\ExternalProject\shared_internal_commands.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FetchContent\CMakeLists.cmake.in C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindGit.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindOpenGL.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\FindPackageMessage.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\GNUInstallDirs.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-Initialize.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows-MSVC.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\Windows.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\Platform\WindowsPaths.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Modules\WriteBasicConfigVersionFile.cmake C$:\Users\Michał\AppData\Local\Programs\CLion\bin\cmake\win\x64\share\cmake-3.30\Templates\CPackConfig.cmake.in CMakeCache.txt CMakeFiles\3.30.5\CMakeCCompiler.cmake CMakeFiles\3.30.5\CMakeCXXCompiler.cmake CMakeFiles\3.30.5\CMakeRCCompiler.cmake CMakeFiles\3.30.5\CMakeSystem.cmake D$:\ProjektyWCplusplus\BattleDuel\CMakeLists.txt _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in _deps\miniaudio-src\CMakeLists.txt _deps\sfml-src\CMakeLists.txt _deps\sfml-src\cmake\CompilerWarnings.cmake _deps\sfml-src\cmake\Config.cmake _deps\sfml-src\cmake\Macros.cmake _deps\sfml-src\cmake\Modules\FindFLAC.cmake _deps\sfml-src\cmake\Modules\FindFreetype.cmake _deps\sfml-src\cmake\Modules\FindOpenAL.cmake _deps\sfml-src\cmake\Modules\FindVORBIS.cmake _deps\sfml-src\cmake\SFMLConfig.cmake.in _deps\sfml-src\cmake\SFMLConfigDependencies.cmake.in _deps\sfml-src\src\SFML\Audio\CMakeLists.txt _deps\sfml-src\src\SFML\CMakeLists.txt _deps\sfml-src\src\SFML\Graphics\CMakeLists.txt _deps\sfml-src\src\SFML\Main\CMakeLists.txt _deps\sfml-src\src\SFML\Network\CMakeLists.txt _deps\sfml-src\src\SFML\System\CMakeLists.txt _deps\sfml-src\src\SFML\Window\CMakeLists.txt: phony
 
 
 #############################################

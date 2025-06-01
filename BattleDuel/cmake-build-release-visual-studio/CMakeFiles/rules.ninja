@@ -73,6 +73,114 @@ rule CUSTOM_COMMAND
 
 
 #############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_channel_combiner_node_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_channel_combiner_node_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_channel_separator_node_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_channel_separator_node_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_ltrim_node_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_ltrim_node_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_reverb_node_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_reverb_node_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__miniaudio_vocoder_node_unscanned_Release
+  deps = msvc
+  command = ${LAUNCHER}${CODE_CHECK}C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER__miniaudio_vocoder_node_Release
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1443~1.348\bin\Hostx64\x64\lib.exe /nologo $LINK_FLAGS /out:$TARGET_FILE $in && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
 # Rule for compiling CXX files.
 
 rule CXX_COMPILER__sfml-system_unscanned_Release

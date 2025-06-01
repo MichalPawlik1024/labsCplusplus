@@ -277,6 +277,17 @@ public:
         setPosition(posX,posY);
     }
 
+    TextDisplayer(int notAmbigous,nlohmann::json & jsonObj):textInfo(jsonObj["textInfo"]) {
+
+        font.loadFromFile(jsonObj["fontFile"]);
+        text.setFont(font);
+        text.setCharacterSize(jsonObj["size"][0]);
+        text.setFillColor(static_cast<sf::Color>(sf::Color::Red));
+        text.setString(textInfo);
+        setPosition(jsonObj["position"][0],jsonObj["position"][1]);
+
+    }
+
     void setText(const std::string str) {
         textInfo=str;
         text.setString(textInfo);
@@ -307,9 +318,9 @@ private:
     TextDisplayer textDisplayer;
     bool result;
 public:
-    FigthResultDisplayer(): result(true), textDisplayer("Assets/minecraft/Minecraft.ttf") {
-        textDisplayer.setPosition(400.0,400.0);
-        textDisplayer.setColor(sf::Color::Green);
+    FigthResultDisplayer(float posX=400.f, float posY=400.f,sf::Color color=sf::Color::Green): result(true), textDisplayer("Assets/minecraft/Minecraft.ttf") {
+        textDisplayer.setPosition(posX,posY);
+        textDisplayer.setColor(color);
 
     }
     void drawResult(bool whoWon, sf::RenderWindow * master) {
@@ -409,7 +420,14 @@ public:
 };
 #endif
 
+///
+///TODO koniecznie dodac logike wczytywania i zapisywania levelu Fightera
+///
 class Fighter : public GraphicalObject {
+private:
+    int level{0};
+    int maxAttack{5};
+    int maxDefense{5};
 protected:
     std::string name;
     int attackPoints;
@@ -453,6 +471,19 @@ public:
     void reduceHealth(int amount) {
         health-=amount;
     }
+    void setAttack(int attack) {
+        attackPoints=attack;
+    }
+    void setDefense(int defense) {
+        defensePoints=defense;
+    }
+    void setMaxHealth(int maxHealth) {
+        this->maxHealth=maxHealth;
+    }
+    void setHealth(int health) {
+        this->health=health;
+    }
+
     bool visible;
     int id;
     ///TODO constructor logic, loading this window assets in private method
@@ -463,7 +494,7 @@ public:
     attackPoints(attackPoints),defensePoints(defensePoints),health(health),
     maxHealth(maxHealth),id(id),name(name),visible(visible),GraphicalObject(skinAssetPath,posX,posY) {
     }
-    Fighter(std::ifstream & filePath,std::string skinAssetPath="", float posX=0.0, float posY=0.0);
+    Fighter(std::ifstream & filePath,std::string skinAssetPath="Assets/Opponents/Major.jpg", float posX=0.0, float posY=0.0);
 
 
     virtual bool fight(Fighter * opponent, int attackFactor);
@@ -473,8 +504,28 @@ public:
     }
 
     virtual void saveData(std::string  filePath);
+    bool selfUpgrade() {
+        if (attackPoints<maxAttack) {
+            attackPoints++;
+        }
+        if (defensePoints<maxDefense) {
+            defensePoints++;
+        }
+        return attackPoints<maxAttack&&defensePoints<maxDefense;//W przeciwnym wypadku nie mozna dalej upgradowac
+    }
+    void incrementLevel(){
+        level++;
+        }
 
-
+    void setMaxAttack(int amount) {
+            maxAttack=amount;
+    }
+    void setMaxDefense(int amount) {
+        maxDefense=amount;
+    }
+    int getLevel() {
+        return level;
+    }
 };
 
 class Player : public Fighter {
@@ -539,8 +590,12 @@ public:
         try {
             for (auto & entry: std::filesystem::directory_iterator(directory)) {
                 try {
+                    sf::Image img;
+                    img.loadFromFile(entry.path().string());
+                    img.createMaskFromColor(sf::Color::Black);
                     frames.emplace_back(new sf::Texture());
-                    frames.back()->loadFromFile(entry.path().string());
+                    //frames.back()->loadFromFile(entry.path().string());
+                    frames.back()->loadFromImage(img);
                 }
                 catch (std::exception & e) {
                     std::cout << e.what() << std::endl;
@@ -603,7 +658,7 @@ class ShotGun:public Weapon {
 
     public:
     ShotGun():Weapon("Assets/shotgun.jpg") {
-
+        this->setMask(sf::Color::White);
 
     }
 #ifdef oldPlayer
@@ -643,7 +698,10 @@ class Saber:public Weapon {
     int sharpnessLevel;
     public:
     Saber():Weapon("Assets/saber.jpg") {
+
         sharpnessLevel=1;
+        this->setMask(sf::Color(139,177,207));
+
     }
 #ifdef oldPlayer
     virtual int getAttackFactor(OldPlayer *player) override {
@@ -740,9 +798,9 @@ class Wand: public Weapon {
 
 
 class WeaponUpgradeCenter {
-    static std::map<WeaponType,int> prices;
     WeaponType current;
 public:
+    static std::map<WeaponType,int> prices;
     WeaponUpgradeCenter(WeaponType  currentWeaponType):current(currentWeaponType) {
 
     }
@@ -755,13 +813,6 @@ public:
 /// So everything is hardcoded like that
 std::map<WeaponType,int> WeaponUpgradeCenter::prices
 {{WeaponType::shotgun,200},{WeaponType::saber,400},{WeaponType::wand,300}};
-
-
-
-
-
-
-
 
 class EventBinder {
     std::unordered_map<BasicWidget *,std::function<void()>> bindedActions;
@@ -783,10 +834,205 @@ public:
 };
 
 
+class OpponentUpgradeCenter {
+
+
+
+public:
+    static std::array<std::string,5> charactersTexturePaths;
+    static std::vector<std::vector<int>> moneyAndXpThresholds;
+    static std::array<std::string,5> charactersNames;
+    static std::vector<sf::Texture*> charactersTextures;
+    void newOpponent(Fighter * current, Player * player) ;
+};
+
+    std::array<std::string,5> OpponentUpgradeCenter::charactersNames{
+    "Major","Shreder","Shrek","Osiol","Chuck Norris"};
+    std::array<std::string,5> OpponentUpgradeCenter::charactersTexturePaths{
+      "Assets/Opponents/Major.jpg",
+        "Assets/Opponents/Shreder.jpg",
+        "Assets/Opponents/Shrek.jpg",
+            "Assets/Opponents/Osiol.jpg",
+        "Assets/Opponents/ChuckNorris.jpg"
+    };
+    std::vector<std::vector<int>> OpponentUpgradeCenter::moneyAndXpThresholds
+    {
+    {200,20},{300,30},{400,40},{500,50}
+    };
+
+    std::vector<sf::Texture*> OpponentUpgradeCenter::charactersTextures{};
 
 
 
 
+class DefaultButton : public TextDisplayer{
+    //TextDisplayer buttonText;
+    sf::RectangleShape outline;
+    sf::Vector2f size;
+public:
+    DefaultButton(std::string displayedText,double sizeX, double sizeY,double posX,
+        double posY,sf::Color backgroundColor=sf::Color::Green, sf::Color fontColor=sf::Color::Black):
+    TextDisplayer("Assets/Minecraft/minecraft.ttf",displayedText,50,
+        sf::Color::White,
+            posX,posY) {
+        setText(displayedText);
+        setColor(fontColor);
+        sf::FloatRect textBounds = TextDisplayer::getGlobalBounds();
+        if (sizeY < 30) sizeY = 50;
+        if (sizeX < textBounds.width + 40) sizeX = textBounds.width + 40;
+        size = sf::Vector2f(sizeX, sizeY);
+        outline.setSize(size);
+        outline.setFillColor(backgroundColor);
+        outline.setPosition(posX, posY);
+        float centerX = posX + (sizeX - textBounds.width) / 2.f;
+        float centerY = posY + (sizeY - textBounds.height) / 2.f;
+        setPosition(centerX, centerY);
+    }
 
+
+    virtual void draw(sf::RenderWindow * master) override {
+        master->draw(outline);
+        TextDisplayer::draw(master);
+    }
+    bool isClicked(sf::RenderWindow * master) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(*master);
+        sf::FloatRect bounds = outline.getGlobalBounds();
+        bool insideButton = bounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+        bool clicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        if (insideButton && clicked) {
+            // std::cout << "Button " << displayName << " clicked!!!" << std::endl;
+            return true;
+        }
+        return false;
+    }
+    void setPosition(double posX, double posY) {
+        TextDisplayer::setPosition(posX,posY);
+        this->outline.setPosition(posX,posY);
+    }
+
+};
+
+class ListShower {
+    std::vector<DefaultButton*> options;
+    int page{0};
+    int maxButtonsPerPage{0};
+public:
+    ListShower(std::string baseDirectory,sf::RenderWindow * master) {
+        for (auto entry: std::filesystem::directory_iterator(std::filesystem::path(baseDirectory)) ) {
+            std::string saveName=entry.path().stem().string();
+            options.push_back(new DefaultButton(saveName,0.0,0.0,100.0,100.0));
+        }
+    }
+    void listOnWindow(sf::RenderWindow * master) {
+        int buttonHeight = 60;
+        int spacing = 10;
+        int startY = 50;
+        //maxButtonsPerPage = (master->getSize().y - startY) / (buttonHeight + spacing);
+        maxButtonsPerPage=4;
+        for (int i = 0; i < maxButtonsPerPage; i++) {
+            int index = page * maxButtonsPerPage + i;
+            if (index >= options.size()) break;
+            float posY = startY + i * (buttonHeight + spacing);
+            options[index]->setPosition(100, posY);
+        }
+
+    }
+    void resetBoundsOfPage() {
+        for (int i = 0; i < maxButtonsPerPage; i++) {
+            int index = page * maxButtonsPerPage + i;
+            options[index]->setPosition(0.0, 0.0);
+        }
+    }
+    void draw(sf::RenderWindow * master) {
+        for (int i=0;i<maxButtonsPerPage&&page*maxButtonsPerPage+i!=options.size(); i++) {
+            int index=page*maxButtonsPerPage+i;
+            options[index]->draw(master);
+        }
+    }
+    std::string handleEvents(sf::RenderWindow * master) {
+        for (int i=0;i<maxButtonsPerPage&&page*maxButtonsPerPage+i!=options.size();i++) {
+            if (options[page*maxButtonsPerPage+i]->isClicked(master)) {
+                return options[page*maxButtonsPerPage+i]->getText();
+            }
+        }
+        return "";
+    }
+    void nextPage(sf::RenderWindow * master) {
+        if ((page + 1) * maxButtonsPerPage < options.size()){  page++;
+            listOnWindow(master);
+        }
+    }
+
+    void prevPage(sf::RenderWindow * master) {
+        if (page > 0) {
+            page--;
+            listOnWindow(master);
+        };
+    }
+    ~ListShower() {
+        for (auto ptr: options) {
+            delete ptr;
+        }
+    }
+};
+
+class PopOutWindow {
+    DefaultButton okButton;
+    TextDisplayer message;
+    sf::RectangleShape background;
+public:
+    PopOutWindow(std::string info):okButton("OK",50,50,100,100),
+    message("Assets/minecraft/Minecraft.ttf",info,30,sf::Color::Black,
+        100.0f,150.0f){
+        background.setPosition(100.0f,100.0f);
+        background.setFillColor(sf::Color::White);
+        background.setOutlineColor(sf::Color::White);
+        background.setSize(sf::Vector2f(300.0f,200.0f));
+        message.setText(info);
+    }
+    void draw(sf::RenderWindow *window) {
+        window->draw(background);
+        message.draw(window);
+        okButton.draw(window);
+    }
+    void showDialog(sf::RenderWindow *window) {
+        bool running=true;
+
+        while (running) {
+            sf::Event event;
+            while (window->pollEvent(event)) {
+                if (okButton.isClicked(window))
+                    running=false;
+
+            }
+            window->clear();
+            draw(window);
+            window->display();
+
+        }
+
+    }
+    void showDialog(float width, float height,std::string title) {
+        auto *window = new sf::RenderWindow(sf::VideoMode(width,height),title);
+        window->setFramerateLimit(60);
+        background.setSize(sf::Vector2f(width,height));
+        background.setFillColor(sf::Color::White);
+        background.setPosition(0.0,0.0);
+        okButton.setPosition(width/2-50.f,height-50.0f);
+        this->message.setPosition(0.0f,10.0f);
+        while (window->isOpen()) {
+            sf::Event event;
+            while (window->pollEvent(event)) {
+                if (okButton.isClicked(window))
+                    window->close();
+            }
+            window->clear();
+            draw(window);
+            window->display();
+        }
+        delete window;
+    }
+
+};
 
 #endif //GAMEMECHANICWIDGETS_H
