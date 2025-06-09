@@ -67,22 +67,24 @@ class HealthBar: BasicWidget {
 
     sf::RectangleShape bar;
     int associatedValue;
+    float scale=2;
     sf::Vector2f size;
 public:
     HealthBar(sf::Vector2f size, sf::Vector2f pos, int assoc_val):BasicWidget(),
     size(size){
+        scale=(size.x)/100;
         bar.setSize(size);
         bar.setPosition(pos);
         bar.setFillColor(sf::Color::Green);
         this->associatedValue=assoc_val;
-        size.x=assoc_val;
+        size.x=assoc_val*scale;
     }
     virtual void draw(sf::RenderWindow * master) override {
         master->draw(bar);
     }
     void decrement(int byValue) {
-        if (size.x-float(byValue)>0) {
-            size.x-=(float)byValue;
+        if (size.x-(scale*float(byValue))>0) {
+            size.x-=(scale*(float)byValue);
             bar.setSize(size);
         }
         else {
@@ -92,12 +94,12 @@ public:
 
     }
     void reset() {
-        size.x=associatedValue;
+        size.x=associatedValue*scale;
         bar.setSize(size);
     }
     void setAssociatedValue(int val) {
         associatedValue=val;
-        size.x=associatedValue;
+        size.x=associatedValue*scale;
         bar.setSize(size);
     }
 
@@ -997,7 +999,6 @@ public:
     }
     void showDialog(sf::RenderWindow *window) {
         bool running=true;
-
         while (running) {
             sf::Event event;
             while (window->pollEvent(event)) {
@@ -1012,8 +1013,9 @@ public:
         }
 
     }
-    void showDialog(float width, float height,std::string title) {
+    void showDialog(float width, float height,std::string title, float posX=0, float posY=0) {
         auto *window = new sf::RenderWindow(sf::VideoMode(width,height),title);
+        window->setPosition(sf::Vector2i(posX,posY));
         window->setFramerateLimit(60);
         background.setSize(sf::Vector2f(width,height));
         background.setFillColor(sf::Color::White);

@@ -1,1 +1,1 @@
-MateuszTheCep	10	7	40	100	300	2
+MateuszTheCep	16	7	10	100	200	2

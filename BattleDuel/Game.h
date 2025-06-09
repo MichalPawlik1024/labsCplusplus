@@ -251,10 +251,23 @@ class Game {
             });
             if (showPricings->isClicked(master))
                 binder.handleAction(showPricings);
-            if (GameWidgets::oponentWeapon->isClicked(master))
-               PopOutWindow( GameWidgets::oponentWeapon->getInfo()).showDialog(300.0f,300.0f,"INFO");
-            if (GameWidgets::playerWeapon->isClicked(master))
-                PopOutWindow( GameWidgets::playerWeapon->getInfo()).showDialog(300.0f,300.0f,"INFO");
+            if (GameWidgets::oponentWeapon->isClicked(master)) {
+                float posX,posY;
+                posX=GameWidgets::oponentWeapon->getPosition().x;
+                posY=GameWidgets::oponentWeapon->getPosition().y;
+
+                PopOutWindow(
+                    GameWidgets::oponentWeapon->getInfo()
+                    ).showDialog(300.0f,300.0f,"opponent's weapon",posX,posY);
+            }
+          if (GameWidgets::playerWeapon->isClicked(master)) {
+              float posX,posY;
+              posX=GameWidgets::playerWeapon->getPosition().x;
+              posY=GameWidgets::playerWeapon->getPosition().y;
+                PopOutWindow( GameWidgets::playerWeapon->getInfo()
+                    ).showDialog(
+                        300.0f,300.0f,"Your Weapon",posX,posY);
+            }
       }
         ~UpgradeMenu() {
           delete statsButton[ButtonType::attack];
@@ -273,9 +286,9 @@ class Game {
             ///Creating this locally because we only use it once.
             std::regex pattern(R"([a-zA-z]+)");
             const std::string minecraftFont="Assets/Minecraft/minecraft.ttf";
-            GameWidgets::newGameInput=new TextInput(100,100,300,50,window);
-            TextDisplayer typeName(minecraftFont);
-            typeName.setPosition(100,60);
+            GameWidgets::newGameInput=new TextInput(700,500,500,150,window);
+            TextDisplayer typeName(minecraftFont,"",80,sf::Color::Green);
+            typeName.setPosition(700,300);
             typeName.setText("Type in your nick");
             while (true) {
                 sf::Event event;
@@ -289,6 +302,8 @@ class Game {
                     }
                 }
                 window->clear();
+
+                GameWidgets::scenes[GameWidgets::SceneType::duelScene]->draw(window);
                 GameWidgets::newGameInput->draw();
                 typeName.draw(window);
                 window->display();
@@ -347,12 +362,13 @@ class Game {
             GameWidgets::playerNameText->setText(chosenSave);
 
             loadStaticElementsValues();
+            //Figuring out wepon data path
             std::string weaponPath=std::filesystem::path(playerPath).parent_path().string();
             std::string oponentWeaponPath=weaponPath;
             weaponPath+="/weaponData.json";
             oponentWeaponPath+="/opponentWeaponData.json";
             std::cout<<weaponPath<<"\n";
-
+            //Loading weapon data from json
             nlohmann::json wJson;
             wJson= wJson.parse(std::ifstream(weaponPath));
             GameWidgets::playerWeapon->loadFromJson(wJson);
@@ -360,7 +376,7 @@ class Game {
             GameWidgets::oponentWeapon->loadFromJson(wJson);
             std::cout<<"Loading weapons ok!";
 
-
+            //Getting positions of widgets from json
             std::ifstream f("Assets/UI/main.json");
             nlohmann::json data = nlohmann::json::parse(f);
             loadWeaponPositions(data["duelScene"]["weapons"]["player"],GameWidgets::playerWeapon);
@@ -555,9 +571,11 @@ class Game {
              if (GameWidgets::playerWeapon->isClicked(&gameWindow)) {
                 if (releaseConter<1){
                     std::thread([&]() {
-
+                        float posX,posY;
+                        posX=GameWidgets::playerWeapon->getPosition().x;
+                        posY=GameWidgets::playerWeapon->getPosition().y;
                         PopOutWindow(GameWidgets::playerWeapon->getInfo()).showDialog(
-                            350.0f,350.0f,"why");
+                            350.0f,350.0f,"why",posX,posY);
                         releaseConter--;
                     }).detach();
              releaseConter++;
@@ -566,9 +584,13 @@ class Game {
             if (GameWidgets::oponentWeapon->isClicked(&gameWindow)) {
                 if (releaseCounterB<1) {
                     std::thread([&]() {
+                        float posX,posY;
+                        posX=GameWidgets::oponentWeapon->getPosition().x;
+                        posY=GameWidgets::oponentWeapon->getPosition().y;
+
                         PopOutWindow(GameWidgets::oponentWeapon->getInfo()).showDialog(
-                            350.0f,350.0f,"why");
-                        releaseConter--;
+                            350.0f,350.0f,"Opponent's weapon:",posX,posY);
+                        releaseCounterB--;
                     }).detach();
                     releaseCounterB++;
                 }

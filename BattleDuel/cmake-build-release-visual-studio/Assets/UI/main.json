@@ -3,7 +3,7 @@
     "background": "Assets/duelScene.jpg",
     "buttons": {
       "attack": {
-        "texture": "Assets/AttackButton.jpg",
+        "texture": "Assets/AttackButton.png",
         "x": 540.0,
         "y": 480.0
       }
@@ -11,34 +11,34 @@
     "dice": {
       "player": {
         "x": 180.0,
-        "y": 320.0
+        "y": 400.0
       },
       "opponent": {
         "x": 980.0,
-        "y": 320.0
+        "y": 400.0
       }
     },
     "texts": {
       "playerName": {
         "text": "Nibemben",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255, 255, 255],
+        "size": 50,
+        "color": [33, 201, 56],
         "x": 140.0,
-        "y": 190.0
+        "y": 200.0
       },
       "opponentName": {
         "text": "Major",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255, 255, 255],
+        "size": 50,
+        "color": [33, 201, 56],
         "x": 1000.0,
-        "y": 190.0
+        "y": 200.0
       },
       "xpInfo": {
         "text": "XP: 0",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
+        "size": 50,
         "color": [255, 255, 0],
         "x": 50.0,
         "y": 30.0
@@ -46,42 +46,42 @@
       "moneyInfo": {
         "text": "Money: 0",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [0, 255, 0],
+        "size": 50,
+        "color": [0, 255, 56],
         "x": 50.0,
-        "y": 70.0
+        "y": 100.0
       },
       "playerHealthInfo": {
         "text": "HP: 100",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255, 100, 100],
+        "size": 50,
+        "color": [33, 201, 100],
         "x": 140.0,
-        "y": 220.0
+        "y": 280.0
       },
       "opponentHealthInfo": {
         "text": "HP: 100",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255, 100, 100],
+        "size": 50,
+        "color": [33, 201, 100],
         "x": 1000.0,
-        "y": 220.0
+        "y": 280.0
       },
       "yourWeapon": {
         "text": "Your weapon: ",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255,100,100],
+        "size": 50,
+        "color": [33,201,100],
         "x": 1500.0,
-        "y": 50.0
+        "y": 20.0
       },
       "opponentWeapon":{
         "text": "Opponent's weapon: ",
         "font": "Assets/minecraft/Minecraft.ttf",
-        "size": 30,
-        "color": [255,100,100],
-        "x": 1500.0,
-        "y": 480.0
+        "size": 50,
+        "color": [33,201,100],
+        "x": 1400.0,
+        "y": 440.0
       }
     },
     "weapons": {
@@ -97,15 +97,15 @@
     "healthBars": {
       "player": {
         "x": 140.0,
-        "y": 260.0,
-        "sizeX": 160,
-        "sizeY": 20
+        "y": 330.0,
+        "sizeX": 210,
+        "sizeY": 40
       },
       "opponent": {
         "x": 1000.0,
-        "y": 260.0,
-        "sizeX": 160,
-        "sizeY": 20
+        "y": 330.0,
+        "sizeX": 210,
+        "sizeY": 40
       }
     },
     "fighters": {
@@ -125,17 +125,17 @@
     "buttons": {
       "newGame": {
         "texture": "Assets/newGameButton.jpg",
-        "x": 540.0,
+        "x": 800.0,
         "y": 250.0
       },
       "loadGame": {
         "texture": "Assets/loadGameButton.jpg",
-        "x": 540.0,
+        "x": 800.0,
         "y": 350.0
       },
       "saveAndExit": {
         "texture": "Assets/saveAndExitButton.jpg",
-        "x": 540.0,
+        "x": 800.0,
         "y": 450.0
       }
     }

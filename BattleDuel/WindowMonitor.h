@@ -32,7 +32,8 @@ inline TextInput::TextInput(float x, float y, float width, float height,sf::Rend
         std::cerr << "Failed to load font\n";
     }
     text.setFont(font);
-    text.setCharacterSize(24);
+    text.setCharacterSize(height-70);
+
     text.setFillColor(sf::Color::Green);
     text.setPosition(x + 5, y + 5);
     box.setSize(sf::Vector2f(width, height));

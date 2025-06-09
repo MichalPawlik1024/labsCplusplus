@@ -147,6 +147,8 @@ public:
         for (auto & texture: diceTextures) {
             delete texture;
         }
+        for (auto & staticText:staticTexts)
+            delete staticText;
        Logger::writeMessage("Everything deallocated safely\n");
     }
     static void load();

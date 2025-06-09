@@ -7,7 +7,7 @@
 #include "miniaudio.h"
 
 
-    void playWav(const char* filename) {
+    void playWav(const char* filename, int duration) {
         ma_result result;
         ma_engine engine;
 
@@ -25,7 +25,7 @@
         }
 
         std::cout << "Odtwarzanie: " << filename << "\n";
-        ma_sleep(1000);  // Czekaj 2 sekundy (lub dłużej, jeśli potrzeba)
+        ma_sleep(duration);  // Czekaj 2 sekundy (lub dłużej, jeśli potrzeba)
 
         ma_engine_uninit(&engine);
     }

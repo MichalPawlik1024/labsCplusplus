@@ -173,7 +173,7 @@ void Saber::attackAnimation(sf::RenderWindow *window, int attacker)  {
                 pWeapon.flip();
 
             std::future<void> soundAsync=std::async(std::launch::async,
-                playWav,"Assets/Music/swordSound.mp3");
+                playWav,"Assets/Music/swordSound.mp3",1500);
 
             for (auto & j:json) {
 
@@ -332,28 +332,99 @@ Weapon *WeaponUpgradeCenter::newWeapon(Weapon *weapon, Player *player) {
 
 
 void Wand::attackAnimation(sf::RenderWindow *window, int attacker) {
-    AnimationsLibrary animations;
-    if (!attacker) {
+
+    window->setFramerateLimit(20);
+   static  GraphicalObject pS("Assets/animationSprites/pS.png",0.0f,0.0f);
+    std::string rawAssetPath="Assets/animationSprites/";
+    rawAssetPath+= OpponentUpgradeCenter::charactersNames[
+        GameWidgets::oponent->getLevel()];
+    rawAssetPath+=".png";
+    GraphicalObject oS(rawAssetPath,0.0f,0.0f);
+    static GraphicalObject pW("Assets/animationSprites/wand.png",0.0f,0.0f);
+    GraphicalObject * spell;
+
+    std::ifstream input;
+    nlohmann::json json;
+    std::function<void()> musicEffect;
+
         switch (currentSpell) {
             case Spell::fireball:
-
-                animations.loadFromDir("Assets/wand/fireball");
+                spell=new GraphicalObject("Assets/animationSprites/fireball.png",0.0f,0.0f);
+                if (!attacker)
+                    input.open("Assets/animationSprites/wandAnimationPlayerFire.json");
+                else
+                    input.open("Assets/animationSprites/wandAnimationOpponentFire.json");
+            input>>json;
+            musicEffect = [&]() {
+               playWav("Assets/Music/fire.mp3",2200);
+            };
             break;
             case Spell::shield:
-                animations.loadFromDir("Assets/wand/shield");
+
+                spell=new GraphicalObject("Assets/animationSprites/shield.png",0.0f,0.0f);
+                if (!attacker)
+                    input.open("Assets/animationSprites/wandAnimationPlayerShield.json");
+                else
+                    input.open("Assets/animationSprites/wandAnimationOpponentShield.json");
+            input>>json;
+
+            musicEffect= [&]() {
+               playWav("Assets/Music/shield.mp3");
+            };
             break;
             case Spell::snowball:
-                animations.loadFromDir("Assets/wand/snowball");
+                spell=new GraphicalObject("Assets/animationSprites/snowball.png",0.0f,0.0f);
+                if (!attacker)
+                    input.open("Assets/animationSprites/wandAnimationPlayerSnowball.json");
+                else
+                    input.open("Assets/animationSprites/wandAnimationOpponentSnowball.json");
+            input>>json;
+
+            musicEffect =[&]() {
+               playWav("Assets/Music/snowball.mp3");
+            };
             break;
         }
         try {
-            sf::Sprite sprite; sprite.setPosition(1000.0f,200.0f);
-            animations.display(window,&sprite);
+            if (attacker) {
+                pW.flip();
+                spell->flip();
+            }
+
+            int frameCounter=0;
+            std::future<void> musicFuture;
+            for (auto & j:json) {
+
+                oS.setPosition(j["opponent"]["x"],j["opponent"]["y"]);
+                pS.setPosition(j["player"]["x"],j["player"]["y"]);
+                pW.setPosition(j["weapon"]["x"],j["weapon"]["y"]);
+                pW.setRotation(j["weapon"]["rotation"]);
+                spell->setPosition(j["spell"]["x"],j["spell"]["y"]);
+                window->clear();
+                GameWidgets::SceneType sctype=GameWidgets::SceneType::duelScene;
+                GameWidgets::drawScene(sctype);
+                oS.draw(window);
+                pS.draw(window);
+                pW.draw(window);
+                spell->draw(window);
+                window->display();
+                frameCounter++;
+                if (frameCounter ==5) {
+
+               musicFuture= std::async(std::launch::async,  musicEffect);
+                }
+            }
+            musicFuture.get();
+            if (attacker) {
+                pW.flip();
+                spell->flip();
+            }
+            delete spell;
         }
         catch (std::exception &e) {
             std::cerr<<"Failed to load animations";
         }
-    }
+        window->setFramerateLimit(50);
 }
 
 
@@ -531,11 +602,14 @@ int main(int avg, char ** args) {
     sf::Texture textureB;
     textureB.loadFromFile("Assets/animationSprites/pS.png");
     sf::Texture textureC;
-    textureC.loadFromFile("Assets/animationSprites/sword.png");
+    textureC.loadFromFile("Assets/animationSprites/wand.png");
+    sf::Texture textureD;
+    textureD.loadFromFile("Assets/animationSprites/shield.png");
     DraggableObject stickmanPlayer(textureB,sf::Vector2f(100.0f,100.0f));
     DraggableObject stickmanO(textureA,sf::Vector2f(300.0f,100.0f));
     DraggableObject weapon(textureC,sf::Vector2f(500.0f,100.0f));
-    weapon.flip();
+    DraggableObject spell(textureD,sf::Vector2f(700.0f,100.0f));
+    //weapon.flip();
     nlohmann::json data;
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(),"GIMME MONEY");
     int frame=0;
@@ -550,6 +624,7 @@ int main(int avg, char ** args) {
                 stickmanO.savePosition(data[frame]["opponent"]);
                 weapon.savePosition(data[frame]["weapon"]);
                 data[frame]["weapon"]["rotation"]=weapon.sprite.getRotation();
+                spell.savePosition(data[frame]["spell"]);
                 frame++;
             }
             if (event.type==sf::Event::KeyReleased&&event.key.code==sf::Keyboard::Right) {
@@ -562,18 +637,21 @@ int main(int avg, char ** args) {
             stickmanPlayer.handleEvent(event, window);
             stickmanO.handleEvent(event, window);
             weapon.handleEvent(event, window);
+            spell.handleEvent(event, window);
         }
 
         stickmanPlayer.update(window);
         stickmanO.update(window);
         weapon.update(window);
+        spell.update(window);
         window.clear(sf::Color::White);
         stickmanPlayer.draw(window);
         stickmanO.draw(window);
         weapon.draw(window);
+        spell.draw(window);
         window.display();
     }
-std::ofstream of("swordAnimation.json");
+std::ofstream of("Assets/animationSprites/wandAnimationPlayerShield.json");
     of<<data.dump(1);
 
 #endif

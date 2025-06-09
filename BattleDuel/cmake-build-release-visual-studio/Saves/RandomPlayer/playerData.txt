@@ -1,1 +1,1 @@
-RandomPlayer	5	3	10	100	100	1
+RandomPlayer	10	5	10	100	200	2
