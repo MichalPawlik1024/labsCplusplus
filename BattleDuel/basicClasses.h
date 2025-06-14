@@ -42,11 +42,13 @@ public:
     WidgetType getWidgetType() override {
         return WidgetType::basicGraphical;
     }
-    bool isClicked(sf::RenderWindow * master) {
+    bool isClicked(sf::RenderWindow * master,sf::Event & event) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(*master);
         sf::FloatRect bounds = sprite.getGlobalBounds();
         bool inside = bounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-        bool clicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        bool clicked = event.mouseButton.button == sf::Mouse::Left && event.type==sf::Event::MouseButtonReleased;
+            //sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
         if (inside && clicked) {
             return true;
         }
@@ -54,7 +56,12 @@ public:
     }
    virtual  void setTexture(sf::Texture & texture) {
         this->texture = texture;
+        sf::IntRect rect;
+        rect.width = texture.getSize().x;
+        rect.height = texture.getSize().y;
+        sprite.setTextureRect(rect);
         sprite.setTexture(this->texture);
+        //sprite.scale(sf::Vector2f(1.0f, 1.0f));
     }
     virtual void setPosition(float posX, float posY) {
         sprite.setPosition(posX, posY);

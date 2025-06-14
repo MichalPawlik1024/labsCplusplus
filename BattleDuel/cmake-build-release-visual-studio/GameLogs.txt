@@ -1,37 +1,16 @@
-start nowej rundy 
+File is read properlyLoading From path: Saves/MateuszTheCep/weaponData.jsonLoading weapons ok!start nowej rundy 
 player attacked
+end 
+start nowej rundy 
+opponent attacked
 end 
 start nowej rundy 
 player attacked
 end 
 start nowej rundy 
-player attacked
+opponent attacked
 end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
+File is read properlyLoading From path: Saves/MateuszTheCep/weaponData.jsonLoading weapons ok!start nowej rundy 
 player attacked
 end 
 start nowej rundy 
@@ -45,54 +24,6 @@ player attacked
 end 
 start nowej rundy 
 opponent attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-opponent attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
-end 
-start nowej rundy 
-player attacked
 end 
 start nowej rundy 
 player attacked

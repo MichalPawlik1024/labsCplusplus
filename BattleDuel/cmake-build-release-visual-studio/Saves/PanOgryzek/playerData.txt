@@ -1,1 +1,1 @@
-PanOgryzek	49	21	40	110	1600	3
+PanOgryzek	49	21	150	110	4800	3

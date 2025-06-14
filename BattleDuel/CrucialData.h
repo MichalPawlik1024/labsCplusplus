@@ -86,13 +86,11 @@ public:
     static std::vector<BasicWidget*> mainMenu;
     static std::vector<BasicWidget*> duelScene;
     static std::vector<BasicWidget*> staticTexts;
-
+    static TextDisplayer * coolDown;
     static void drawScene(SceneType & sceneType) {
-#ifdef InGame
-        scenes[sceneType]->draw();
-#endif
         switch (sceneType) {
             case SceneType::mainMenu:
+                scenes[sceneType]->draw(master);
                 std::for_each(mainMenu.begin(),mainMenu.end(),[](auto & B) {B->draw(master);});
                 break;
             case SceneType::duelScene:
@@ -111,6 +109,7 @@ public:
                 xpInfo->draw(master);
                 playerWeapon->draw(master);
                 oponentWeapon->draw(master);
+                coolDown->draw(master);
                // player->draw(master);
                 oponent->draw(master);
                 std::for_each(staticTexts.begin(),staticTexts.end(),[&](auto & A) {
@@ -174,6 +173,7 @@ Dice * GameWidgets::opponentDice;
 Dice * GameWidgets::playerDice;
 HealthBar * GameWidgets::playerHealthBar;
 HealthBar * GameWidgets::opponentHealthBar;
+TextDisplayer * GameWidgets::coolDown;
 TextDisplayer * GameWidgets::opponentNameText;
 TextDisplayer * GameWidgets::playerNameText;
 FigthResultDisplayer * GameWidgets::resultDisplayer;
@@ -185,6 +185,7 @@ TextDisplayer * GameWidgets::xpInfo;
 sf::RenderWindow * GameWidgets::master;
 Weapon * GameWidgets::playerWeapon;
 Weapon * GameWidgets::oponentWeapon;
+
 std::vector<BasicWidget *> GameWidgets::duelScene{};
 std::vector<BasicWidget *> GameWidgets::mainMenu{};
 std::vector<BasicWidget *> GameWidgets::staticTexts;
@@ -291,6 +292,8 @@ inline void GameWidgets::loadUIFromJson(const std::string &path)  {
     GameWidgets::staticTexts.emplace_back(loadTextDisplayer(data["duelScene"]["texts"]["yourWeapon"]));
     GameWidgets::staticTexts.emplace_back(loadTextDisplayer(data["duelScene"]["texts"]["opponentWeapon"]));
     GameWidgets::resultDisplayer=new FigthResultDisplayer();
+    GameWidgets::coolDown=loadTextDisplayer(data["duelScene"]["texts"]["coolDown"]);
+
     // Bars
     GameWidgets::playerHealthBar=loadHealthBar(data["duelScene"]["healthBars"]["player"]);
     GameWidgets::opponentHealthBar=loadHealthBar(data["duelScene"]["healthBars"]["opponent"]);

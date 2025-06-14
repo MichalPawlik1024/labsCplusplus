@@ -70,15 +70,19 @@ class HealthBar: BasicWidget {
     float scale=2;
     sf::Vector2f size;
 public:
-    HealthBar(sf::Vector2f size, sf::Vector2f pos, int assoc_val):BasicWidget(),
+    HealthBar(sf::Vector2f size, sf::Vector2f pos, int assoc_val, sf::Color barColor=sf::Color::Green):BasicWidget(),
     size(size){
         scale=(size.x)/100;
         bar.setSize(size);
         bar.setPosition(pos);
-        bar.setFillColor(sf::Color::Green);
+        bar.setFillColor(barColor);
         this->associatedValue=assoc_val;
         size.x=assoc_val*scale;
     }
+    void setFillColor(sf::Color barColor) {
+        bar.setFillColor(barColor);
+    }
+
     virtual void draw(sf::RenderWindow * master) override {
         master->draw(bar);
     }
@@ -153,7 +157,7 @@ public:
         return active;
     }
     void activate() {
-        active = true;
+        this->active = true;
     }
     void deactivate() {
         active = false;
@@ -654,6 +658,9 @@ protected:
     virtual void loadFromJson(nlohmann::json & json) {
 
      }
+    virtual int getNumericalType() {
+         return 0;
+     }
     //virtual ~Weapon();
  };
 class ShotGun:public Weapon {
@@ -693,7 +700,9 @@ class ShotGun:public Weapon {
     void loadFromJson(nlohmann::json & json) override {
 
     }
-
+    int getNumericalType() override {
+        return 1;
+    }
 //virtual ~ShotGun(){}
 };
 class Saber:public Weapon {
@@ -716,7 +725,7 @@ class Saber:public Weapon {
 #endif
     virtual int getAttackFactor(Fighter *player) override {
         ///chance of smash attac
-        return 10*(rand()%2);
+        return 5*(rand()%(sharpnessLevel+1));
     }
     virtual int getDefenseFactor(Fighter *player) override {
         return 10;
@@ -729,7 +738,13 @@ class Saber:public Weapon {
     }
     virtual void attackAnimation(sf::RenderWindow *window, int attacker=0) override;
     std::string getInfo() override {
-        return "Elegant weapon\n For more civilized times\n Sharpness "+std::to_string(sharpnessLevel);
+        std::string msg="Elegant weapon\n For more civilized times\n Sharpness ";
+        msg+=std::to_string(sharpnessLevel);
+        msg+="\n Gives you chance \n To deal up to: \n";
+        msg+=std::to_string(sharpnessLevel*5);
+        msg+=" \n smash attack";
+        return msg;
+
     }
     bool selfUpgrade() override {
         if (sharpnessLevel<5) {
@@ -747,6 +762,9 @@ class Saber:public Weapon {
     }
     void loadFromJson(nlohmann::json & json) override {
         sharpnessLevel = json["sharpnessLevel"];
+    }
+    int getNumericalType() override {
+        return 2;
     }
 };
 
@@ -794,6 +812,10 @@ class Wand: public Weapon {
         currentSpell = json["currentSpell"];
     }
     void attackAnimation(sf::RenderWindow *window, int attacker=0) override;
+
+    int getNumericalType() override {
+        return 3;
+    }
 };
 
 
@@ -859,7 +881,7 @@ public:
     };
     std::vector<std::vector<int>> OpponentUpgradeCenter::moneyAndXpThresholds
     {
-    {200,20},{300,30},{400,40},{500,50}
+    {200,20},{300,30},{400,40},{500,50},{600,60}
     };
 
     std::vector<sf::Texture*> OpponentUpgradeCenter::charactersTextures{};
@@ -873,8 +895,8 @@ class DefaultButton : public TextDisplayer{
     sf::Vector2f size;
 public:
     DefaultButton(std::string displayedText,double sizeX, double sizeY,double posX,
-        double posY,sf::Color backgroundColor=sf::Color::Green, sf::Color fontColor=sf::Color::Black):
-    TextDisplayer("Assets/Minecraft/minecraft.ttf",displayedText,50,
+        double posY,int textSize=50,sf::Color backgroundColor=sf::Color::Green, sf::Color fontColor=sf::Color::Black):
+    TextDisplayer("Assets/Minecraft/minecraft.ttf",displayedText,textSize,
         sf::Color::White,
             posX,posY) {
         setText(displayedText);
@@ -896,11 +918,12 @@ public:
         master->draw(outline);
         TextDisplayer::draw(master);
     }
-    bool isClicked(sf::RenderWindow * master) {
+    bool isClicked(sf::RenderWindow * master, sf::Event & event) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(*master);
         sf::FloatRect bounds = outline.getGlobalBounds();
         bool insideButton = bounds.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-        bool clicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        bool clicked =event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased;
+            //;sf::Mouse::isButtonPressed(sf::Mouse::Left);
         if (insideButton && clicked) {
             // std::cout << "Button " << displayName << " clicked!!!" << std::endl;
             return true;
@@ -918,24 +941,30 @@ class ListShower {
     std::vector<DefaultButton*> options;
     int page{0};
     int maxButtonsPerPage{0};
+    float posX_;
+    float posY_;
+    float sizeX_;
+    float sizeY_;
 public:
-    ListShower(std::string baseDirectory,sf::RenderWindow * master) {
+    ListShower(std::string baseDirectory,sf::RenderWindow * master, float posX=0.f, float posY=0.f,
+        float sizeX=100.0f, float sizeY=100.f):
+    posX_(posX),posY_(posY),sizeX_(sizeX),sizeY_(sizeY){
         for (auto entry: std::filesystem::directory_iterator(std::filesystem::path(baseDirectory)) ) {
             std::string saveName=entry.path().stem().string();
-            options.push_back(new DefaultButton(saveName,0.0,0.0,100.0,100.0));
+            options.push_back(new DefaultButton(saveName,sizeX_,sizeY_,posX,posY, sizeY_-20));
         }
     }
     void listOnWindow(sf::RenderWindow * master) {
-        int buttonHeight = 60;
-        int spacing = 10;
-        int startY = 50;
+        int buttonHeight = sizeY_;
+        int spacing = 30;
+        int startY = posY_;
         //maxButtonsPerPage = (master->getSize().y - startY) / (buttonHeight + spacing);
         maxButtonsPerPage=4;
         for (int i = 0; i < maxButtonsPerPage; i++) {
             int index = page * maxButtonsPerPage + i;
             if (index >= options.size()) break;
             float posY = startY + i * (buttonHeight + spacing);
-            options[index]->setPosition(100, posY);
+            options[index]->setPosition(posX_, posY);
         }
 
     }
@@ -951,9 +980,9 @@ public:
             options[index]->draw(master);
         }
     }
-    std::string handleEvents(sf::RenderWindow * master) {
+    std::string handleEvents(sf::RenderWindow * master, sf::Event & event) {
         for (int i=0;i<maxButtonsPerPage&&page*maxButtonsPerPage+i!=options.size();i++) {
-            if (options[page*maxButtonsPerPage+i]->isClicked(master)) {
+            if (options[page*maxButtonsPerPage+i]->isClicked(master,event)) {
                 return options[page*maxButtonsPerPage+i]->getText();
             }
         }
@@ -1002,7 +1031,7 @@ public:
         while (running) {
             sf::Event event;
             while (window->pollEvent(event)) {
-                if (okButton.isClicked(window))
+                if (okButton.isClicked(window,event))
                     running=false;
 
             }
@@ -1025,7 +1054,7 @@ public:
         while (window->isOpen()) {
             sf::Event event;
             while (window->pollEvent(event)) {
-                if (okButton.isClicked(window))
+                if (okButton.isClicked(window,event))
                     window->close();
             }
             window->clear();

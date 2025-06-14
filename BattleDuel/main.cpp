@@ -137,7 +137,7 @@ void ShotGun::attackAnimation(sf::RenderWindow *window, int attacker) {
 
     }
 
-
+    window->setFramerateLimit(20);
 }
 //#define test
 
@@ -159,7 +159,7 @@ void Saber::attackAnimation(sf::RenderWindow *window, int attacker)  {
         nlohmann::json json;
         input>>json;
         nlohmann::json initial=*json.begin();
-        window->setFramerateLimit(25);
+
         try {
             GraphicalObject oStickmin(rawAssetPath,initial["opponent"]["x"],
                     initial["opponent"]["y"]);
@@ -198,7 +198,7 @@ void Saber::attackAnimation(sf::RenderWindow *window, int attacker)  {
         catch (std::exception & e) {
             std::cout << e.what() << std::endl;
         }
-        window->setFramerateLimit(50);
+
 
 
 }
@@ -333,7 +333,7 @@ Weapon *WeaponUpgradeCenter::newWeapon(Weapon *weapon, Player *player) {
 
 void Wand::attackAnimation(sf::RenderWindow *window, int attacker) {
 
-    window->setFramerateLimit(20);
+
    static  GraphicalObject pS("Assets/animationSprites/pS.png",0.0f,0.0f);
     std::string rawAssetPath="Assets/animationSprites/";
     rawAssetPath+= OpponentUpgradeCenter::charactersNames[
@@ -346,7 +346,6 @@ void Wand::attackAnimation(sf::RenderWindow *window, int attacker) {
     std::ifstream input;
     nlohmann::json json;
     std::function<void()> musicEffect;
-
         switch (currentSpell) {
             case Spell::fireball:
                 spell=new GraphicalObject("Assets/animationSprites/fireball.png",0.0f,0.0f);
@@ -375,9 +374,9 @@ void Wand::attackAnimation(sf::RenderWindow *window, int attacker) {
             case Spell::snowball:
                 spell=new GraphicalObject("Assets/animationSprites/snowball.png",0.0f,0.0f);
                 if (!attacker)
-                    input.open("Assets/animationSprites/wandAnimationPlayerSnowball.json");
+                    input.open("Assets/animationSprites/wandAnimationPlayerFire.json");
                 else
-                    input.open("Assets/animationSprites/wandAnimationOpponentSnowball.json");
+                    input.open("Assets/animationSprites/wandAnimationOpponentFire.json");
             input>>json;
 
             musicEffect =[&]() {
@@ -424,7 +423,7 @@ void Wand::attackAnimation(sf::RenderWindow *window, int attacker) {
         catch (std::exception &e) {
             std::cerr<<"Failed to load animations";
         }
-        window->setFramerateLimit(50);
+
 }
 
 
@@ -453,6 +452,9 @@ void Player::saveData(std::string  filePath)  {
     std::ofstream file(filePath);
     file<<name<<space<<attackPoints<<space<<defensePoints<<space<<xp<<space<<maxHealth<<
         space<<money;
+
+    file<<space<<GameWidgets::playerWeapon->getNumericalType();
+    /*
     switch (GameWidgets::playerWeapon->getType()) {
         case WeaponType::shotgun:
             file<<space<<1;
@@ -464,6 +466,7 @@ void Player::saveData(std::string  filePath)  {
             file<<space<<3;
         break;
     }
+    */
 }
 
 bool Player::fight(Fighter *opponent, int attackFactor) {
@@ -533,7 +536,8 @@ void Fighter::saveData(std::string filePath) {
     std::ofstream file(filePath);
     file<<name<<space<<attackPoints<<space<<defensePoints<<space<<space<<maxHealth<<space
     <<maxAttack<<space<<maxDefense<<space<<level;
-
+    file<<space<<GameWidgets::oponentWeapon->getNumericalType();
+    /*
     switch (GameWidgets::oponentWeapon->getType()) {
         case WeaponType::shotgun:
             file<<space<<1;
@@ -545,7 +549,7 @@ void Fighter::saveData(std::string filePath) {
             file<<space<<3;
         break;
     }
-
+*/
 }
 
 
@@ -553,9 +557,9 @@ void OpponentUpgradeCenter::newOpponent(Fighter *current, Player *player) {
     int currentLevel=current->getLevel();
 
     if (std::stoi(player->getMoney())>=moneyAndXpThresholds[currentLevel][0]&&
-                std::stoi(player->getXp())>=moneyAndXpThresholds[currentLevel][1]&&currentLevel<4) {
+                std::stoi(player->getXp())>=moneyAndXpThresholds[currentLevel][1]&&currentLevel<5) {
         player->decrementMoney(moneyAndXpThresholds[currentLevel][0]);
-        player->decrementXp(moneyAndXpThresholds[0][1]);
+        player->decrementXp(moneyAndXpThresholds[currentLevel][1]);
 
         if (!GameWidgets::oponentWeapon->selfUpgrade()) {
             sf::Vector2f posA=GameWidgets::oponentWeapon->getPosition();
@@ -573,13 +577,19 @@ void OpponentUpgradeCenter::newOpponent(Fighter *current, Player *player) {
             }
         }
         if (!current->selfUpgrade()) {
-            sf::Texture newTexture;
-            newTexture.loadFromFile(charactersTexturePaths[0]);
-            current->setTexture(newTexture);
-            current->incrementLevel();
-            current->setMaxAttack(current->getAttackI()+5);
-            current->setMaxDefense(current->getDefenceI()+5);
-            GameWidgets::opponentNameText->setText(charactersNames[++currentLevel]);
+                current->setMaxAttack(current->getAttackI()+5);
+                current->setMaxDefense(current->getDefenceI()+5);
+                if (currentLevel<4) {
+                    current->incrementLevel();
+                    sf::Texture newTexture;
+                    newTexture.loadFromFile(charactersTexturePaths[++currentLevel]);
+                    current->setTexture(newTexture);
+                    GameWidgets::opponentNameText->setText(charactersNames[++currentLevel]);
+                }
+            else {
+                PopOutWindow("You reached last character\n You're now in the endless zone \n More characters coming soon")
+                .showDialog(500.f,400.0f,"MAX");
+            }
 
         }
                 }

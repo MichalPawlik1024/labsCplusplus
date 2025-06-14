@@ -6,6 +6,123 @@
 #define GAME_H
 #include"CrucialData.h"
 #include "UIFactory.h"
+class CoolDown {
+    std::thread Timer;
+    std::mutex mtx;
+    std::condition_variable cv;
+    std::atomic<bool> active{false};
+    std::atomic<bool> exitThread{false};
+    bool startRequested = false;
+
+    int cooldownSeconds;
+    int intervalMillis;
+    std::string labelFormat;
+    TextDisplayer* display;
+
+    std::string formatLabel(double remainingTime) {
+        std::string formatted = labelFormat;
+        size_t pos = formatted.find("{t}");
+        if (pos != std::string::npos) {
+            formatted.replace(pos, 3, std::to_string(static_cast<int>(std::ceil(remainingTime))));
+        }
+        return formatted;
+    }
+
+    void timerLoop() {
+        std::unique_lock<std::mutex> lock(mtx);
+        while (!exitThread) {
+            cv.wait(lock, [&] { return startRequested || exitThread; });
+            if (exitThread) break;
+
+            active = true;
+            startRequested = false;
+            double remainingTime = cooldownSeconds;
+            lock.unlock();
+
+            while (remainingTime > 0.0 && !exitThread) {
+                if (display) {
+                    display->setText(formatLabel(remainingTime));
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(intervalMillis));
+                remainingTime -= intervalMillis / 1000.0;
+            }
+
+            lock.lock();
+            if (display && !exitThread) {
+                display->setText("");
+            }
+            active = false;
+        }
+    }
+
+public:
+    CoolDown(int seconds = 5,
+             TextDisplayer* disp = nullptr,
+             int intervalMs = 1000,
+             const std::string& format = "Cooldown: {t}s")
+        : cooldownSeconds(seconds),
+          intervalMillis(intervalMs),
+          labelFormat(format),
+          display(disp)
+    {
+        Timer = std::thread(&CoolDown::timerLoop, this);
+    }
+
+    void setDisplayer(TextDisplayer* disp) {
+        std::lock_guard<std::mutex> lock(mtx);
+        display = disp;
+    }
+
+    void setInterval(int ms) {
+        std::lock_guard<std::mutex> lock(mtx);
+        intervalMillis = ms;
+    }
+
+    void setLabelFormat(const std::string& format) {
+        std::lock_guard<std::mutex> lock(mtx);
+        labelFormat = format;
+    }
+
+    void setDuration(int seconds) {
+        std::lock_guard<std::mutex> lock(mtx);
+        cooldownSeconds = seconds;
+    }
+
+    void start() {
+        std::lock_guard<std::mutex> lock(mtx);
+        if (!active) {
+            startRequested = true;
+            cv.notify_one();
+        }
+    }
+
+    void restart() {
+        std::lock_guard<std::mutex> lock(mtx);
+        startRequested = true;
+        cv.notify_one();
+    }
+
+    bool getStatus() {
+        return active;
+    }
+
+    void release() {
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            exitThread = true;
+            cv.notify_one();
+        }
+        if (Timer.joinable())
+            Timer.join();
+    }
+
+    ~CoolDown() {
+        release();
+    }
+};
+
+
+
 
 
 class CompetingForAttack {
@@ -25,10 +142,13 @@ public:
     std::atomic<bool> running{true};
     std::atomic<bool> roudEnded{false};
 
-    CompetingForAttack() = default;
+    CoolDown coolDown;
+    CompetingForAttack():coolDown(5,GameWidgets::coolDown,500){
+std::cout<<"Flawless comnstructor \n";
+    };
 
     void opponentTriesToAttack() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1500)); // Cooldown przeciwnika
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000)); // Cooldown przeciwnika
         {
             bool expected=false;
             opponentMutex.lock();
@@ -41,10 +161,13 @@ public:
         playerCV.notify_all();
     }
 
+
+
+
     void playerTriesToAttack() {
         std::unique_lock<std::mutex> lock(playerMtx);
-        ///We won't wait eternity for player to press key
-        playerCV.wait(lock, [this]() { return playerPressed.load() || !running.load()|| decisionLocked.load(); });
+        ///We won't wait eternity for player to press key add back: p&
+        playerCV.wait(lock, [this]() { return playerPressed.load()&!coolDown.getStatus()|| !running.load()|| decisionLocked.load(); });
         if (!running) return;
         {
             bool expected=false;
@@ -59,6 +182,7 @@ public:
     }
 
     void main() {
+
         while (running.load()) {
             playerAttacked = false;
             opponentAttacked = false;
@@ -83,6 +207,7 @@ public:
             switch (attacker) {
                 case WhoAttacked::player:
                     Logger::writeMessage("player attacked\n");
+                    coolDown.start();
                 break;
                 case WhoAttacked::opponent:
                     Logger::writeMessage("opponent attacked\n");
@@ -91,7 +216,9 @@ public:
             opponentMutex.unlock();
             Logger::writeMessage("end \n");
             roudEnded.store(true);
+
         }
+coolDown.release();
     }
 
 };
@@ -109,9 +236,11 @@ class Game {
         CompetingForAttack competingForAttack;
         bool fightTriggered;
         std::thread AttackMechanics;
-    void setWidgetsMaster() {
+
+
+        void setWidgetsMaster() {
         GameWidgets::master=&gameWindow;
-    }
+        }
     class UpgradeMenu {
         enum class ButtonType{attack,defense,maxHealth,goBack, weaponUpgrade, opponentUpgrade};
         std::unordered_map<ButtonType,DefaultButton*> statsButton;
@@ -193,6 +322,10 @@ class Game {
           });
           binder.bindAction(statsButton[ButtonType::goBack],[this]() {
               isActive=false;
+              GameWidgets::newGame->deactivate();
+              GameWidgets::loadGame->deactivate();
+              GameWidgets::saveAndExit->deactivate();
+
           });
           binder.bindAction(statsButton[ButtonType::weaponUpgrade],[this]() {
               WeaponType tp=GameWidgets::playerWeapon->getType();
@@ -244,14 +377,16 @@ class Game {
             //External widgets
             showPricings->draw(master);
       }
-        void handleEvents(sf::RenderWindow * master) {
-            std::for_each(statsButton.begin(),statsButton.end(),[this,&master](auto & B) {
-                if (B.second->isClicked(master))
+        void handleEvents(sf::RenderWindow * master,sf::Event & event) {
+
+            std::for_each(statsButton.begin(),statsButton.end(),[this,&master,&event](auto & B) {
+                if (B.second->isClicked(master,event))
                     binder.handleAction(B.second);
+
             });
-            if (showPricings->isClicked(master))
+            if (showPricings->isClicked(master,event))
                 binder.handleAction(showPricings);
-            if (GameWidgets::oponentWeapon->isClicked(master)) {
+            if (GameWidgets::oponentWeapon->isClicked(master,event)) {
                 float posX,posY;
                 posX=GameWidgets::oponentWeapon->getPosition().x;
                 posY=GameWidgets::oponentWeapon->getPosition().y;
@@ -260,7 +395,7 @@ class Game {
                     GameWidgets::oponentWeapon->getInfo()
                     ).showDialog(300.0f,300.0f,"opponent's weapon",posX,posY);
             }
-          if (GameWidgets::playerWeapon->isClicked(master)) {
+          if (GameWidgets::playerWeapon->isClicked(master,event)) {
               float posX,posY;
               posX=GameWidgets::playerWeapon->getPosition().x;
               posY=GameWidgets::playerWeapon->getPosition().y;
@@ -314,7 +449,9 @@ class Game {
         std::string opponentPath;
         DataManager()=default;
         void loadData(std::string directoryPath,sf::RenderWindow * window) {
-            ListShower lstShower(directoryPath,window);
+
+            ListShower lstShower(directoryPath,window,window->getSize().x/4,window->getSize().y/5,
+                100.0f,150.0f);
             lstShower.listOnWindow(window);
             std::string chosenSave;
             bool running=true;
@@ -323,7 +460,7 @@ class Game {
                 sf::Event event;
                 while (window->pollEvent(event)) {
                     std::string mes;
-                    if ((mes=lstShower.handleEvents(window))!="") {
+                    if ((mes=lstShower.handleEvents(window,event))!="") {
                         chosenSave=mes;
                         running=false;
                     }
@@ -333,6 +470,7 @@ class Game {
                     }
                 }
                 window->clear();
+                GameWidgets::scenes[GameWidgets::SceneType::duelScene]->draw(window);
                 lstShower.draw(window);
                 window->display();
             }
@@ -346,11 +484,9 @@ class Game {
             std::future<void> loadOpponent=std::async(std::launch::async,[&chosenSave,this]() {
               std::ifstream fileR("Saves/"+chosenSave+"/opponentData.txt");
                 opponentPath="Saves/"+chosenSave+"/opponentData.txt";
-
                 GameWidgets::oponent=new Fighter(fileR);
 
           });
-
             GameWidgets::player=new Player(fileReader);
 
             loadOpponent.get();
@@ -362,19 +498,21 @@ class Game {
             GameWidgets::playerNameText->setText(chosenSave);
 
             loadStaticElementsValues();
-            //Figuring out wepon data path
-            std::string weaponPath=std::filesystem::path(playerPath).parent_path().string();
-            std::string oponentWeaponPath=weaponPath;
-            weaponPath+="/weaponData.json";
+
+            std::string weaponSubPath=std::filesystem::path(playerPath).parent_path().string();
+            std::string oponentWeaponPath=weaponSubPath;
+            weaponSubPath+="/weaponData.json";
             oponentWeaponPath+="/opponentWeaponData.json";
-            std::cout<<weaponPath<<"\n";
+            Logger::writeMessage("Loading From path: "+weaponSubPath);
+           // std::cout<<weaponSubPath<<"\n";
             //Loading weapon data from json
             nlohmann::json wJson;
-            wJson= wJson.parse(std::ifstream(weaponPath));
+            wJson= wJson.parse(std::ifstream(weaponSubPath));
             GameWidgets::playerWeapon->loadFromJson(wJson);
             wJson=wJson.parse(std::ifstream(oponentWeaponPath));
             GameWidgets::oponentWeapon->loadFromJson(wJson);
-            std::cout<<"Loading weapons ok!";
+            Logger::writeMessage("Loading weapons ok!");
+            //std::cout<<"Loading weapons ok!";
 
             //Getting positions of widgets from json
             std::ifstream f("Assets/UI/main.json");
@@ -384,7 +522,9 @@ class Game {
 
             GameWidgets::player->setPosition(data["duelScene"]["fighters"]["player"]["x"],data["duelScene"]["fighters"]["player"]["y"]);
             GameWidgets::oponent->setPosition(data["duelScene"]["fighters"]["opponent"]["x"],data["duelScene"]["fighters"]["opponent"]["y"]);
-            GameWidgets::opponentNameText->setText(OpponentUpgradeCenter::charactersNames[GameWidgets::oponent->getLevel()]);
+
+            GameWidgets::opponentNameText->setText(OpponentUpgradeCenter::charactersNames[
+                GameWidgets::oponent->getLevel()]);
         }
 
         void loadStaticElementsValues() {
@@ -490,7 +630,7 @@ class Game {
         while (upgradeMenu.isActive) {
             sf::Event event;
             while (gameWindow.pollEvent(event)) {
-                upgradeMenu.handleEvents(&gameWindow);
+                upgradeMenu.handleEvents(&gameWindow,event);
             }
             gameWindow.clear();
             upgradeMenu.drawAll(&gameWindow);
@@ -514,14 +654,22 @@ class Game {
                 GameWidgets::saveAndExit->deactivate();
                 currentScene=GameWidgets::SceneType::duelScene;
                 GameWidgets::attackButton->activate();
-                std::cout<<"Working here";
+
+            std::thread([this]() {
                 PopOutWindow popOut("To start round\n click attack\n ");
-                popOut.showDialog(&gameWindow);
+                popOut.showDialog(400.0f,300.f,"INFO");
+               // popOut.showDialog(&gameWindow);
                 PopOutWindow popOut2("To attack press A\n");
-                popOut2.showDialog(&gameWindow);
+                popOut2.showDialog(400.0f,300.f,"INFO");
+               // popOut2.showDialog(&gameWindow);
                 PopOutWindow popOut3("To upgrade \n  press S");
-                popOut3.showDialog(&gameWindow);
-                upgradeMenu.loadAssets();
+                popOut3.showDialog(400.0f,300.f,"INFO");
+                //popOut3.showDialog(&gameWindow);
+                return;
+                }).detach();
+            upgradeMenu.loadAssets();
+
+
         });
         eventsBinder.bindAction(GameWidgets::newGame,[this]() {
             dataManager.createData(&gameWindow);
@@ -557,18 +705,21 @@ class Game {
                 handleUpgradeWindow();
             }
             if (event.type==sf::Event::Closed) {
+                if(GameWidgets::attackButton->isActive()) {
                 competingForAttack.running=false;
                 competingForAttack.playerCV.notify_all();
                 competingForAttack.tura.notify_all();
                 dataManager.saveData();
                 gameWindow.close();
+}
             }
 
             for (auto & btn: widgets) {
-                if (btn->isClicked(&gameWindow)&&btn->isActive())
-                eventsBinder.handleAction(btn);
+                if (btn->isClicked(&gameWindow,event)&&btn->isActive()) {
+                    eventsBinder.handleAction(btn);
+                }
             }
-             if (GameWidgets::playerWeapon->isClicked(&gameWindow)) {
+             if (GameWidgets::playerWeapon->isClicked(&gameWindow,event)) {
                 if (releaseConter<1){
                     std::thread([&]() {
                         float posX,posY;
@@ -581,7 +732,7 @@ class Game {
              releaseConter++;
                 }
             }
-            if (GameWidgets::oponentWeapon->isClicked(&gameWindow)) {
+            if (GameWidgets::oponentWeapon->isClicked(&gameWindow,event)) {
                 if (releaseCounterB<1) {
                     std::thread([&]() {
                         float posX,posY;
@@ -595,6 +746,7 @@ class Game {
                     releaseCounterB++;
                 }
             }
+
         }
 
     }
@@ -609,17 +761,20 @@ class Game {
         GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
         GameWidgets::opponentHealthInfo->setText("HP: "+ GameWidgets::oponent->getHealth());
 
+
     }
 
 
 
     void startFightRound() {
+        gameWindow.setFramerateLimit(20);
         if (!fightTriggered)
             return;
         while (fightTriggered) {
             sf::Event event;
             while (gameWindow.pollEvent(event)) {
-                if (event.type==sf::Event::KeyReleased&&event.key.code==sf::Keyboard::A) {
+                if (event.type==sf::Event::KeyReleased&&event.key.code==sf::Keyboard::A&&!competingForAttack.coolDown.getStatus()) {
+                    std::cout<<"you pressed me:";
                     competingForAttack.playerPressed=true;
                     competingForAttack.playerCV.notify_all();
                 }
@@ -634,6 +789,9 @@ class Game {
                     continue;
                 }
             }
+            gameWindow.clear();
+            GameWidgets::drawScene(currentScene);
+            gameWindow.display();
             if (competingForAttack.roudEnded.load()){
                 competingForAttack.roudEnded=false;
                  if (competingForAttack.attacker.load()==CompetingForAttack::WhoAttacked::player) {
@@ -642,6 +800,7 @@ class Game {
                              GameWidgets::playerDice->roll(&gameWindow));
                      GameWidgets::playerWeapon->attackAnimation(&gameWindow);
                      GameWidgets::opponentHealthInfo->setText("HP: "+ GameWidgets::oponent->getHealth());
+                     GameWidgets::drawScene(currentScene);
                      if (fightResult) {
                          GameWidgets::resultDisplayer->drawResult(true,&gameWindow);
                          resetAllInfo();
@@ -653,6 +812,7 @@ class Game {
                     bool fightResult=GameWidgets::oponent->fight(GameWidgets::player,GameWidgets::opponentDice->roll(&gameWindow));
                     GameWidgets::oponentWeapon->attackAnimation(&gameWindow,1);
                     GameWidgets::playerHealthInfo->setText("HP: "+GameWidgets::player->getHealth());
+                    GameWidgets::drawScene(currentScene);
                     if (fightResult) {
                         GameWidgets::resultDisplayer->drawResult(false,&gameWindow);
                         resetAllInfo();
@@ -664,22 +824,27 @@ class Game {
                 competingForAttack.tura.notify_all();
             }
         }
-
+        gameWindow.setFramerateLimit(50);
     }
 
     public:
     Game(): gameWindow(/*sf::VideoMode(1000.0,1000.0)*/ sf::VideoMode::getDesktopMode(),"DuelBattle"),
        currentScene(GameWidgets::SceneType::mainMenu),fightTriggered(false),AttackMechanics(&CompetingForAttack::main,&competingForAttack)
-            {
+
+    {
     }
 
     void startMenu() {
+
                 setWidgetsMaster();
                 mainLoop();
         }
     void mainLoop() {
                 bindEvents();
+            GameWidgets::attackButton->deactivate();
                 while (gameWindow.isOpen()) {
+                    //Delete this
+
                     listenToEvents();
                     gameWindow.clear();
                     GameWidgets::drawScene(currentScene);
@@ -701,7 +866,7 @@ inline void debugUpgradeWin(sf::RenderWindow *window) {
     while (upgradeMenu.isActive) {
         sf::Event event;
         while (window->pollEvent(event)) {
-            upgradeMenu.handleEvents(window);
+            upgradeMenu.handleEvents(window,event);
         }
         window->clear();
         upgradeMenu.drawAll(window);
@@ -716,8 +881,8 @@ void debbugingMode(sf::RenderWindow * window) {
     const std::string name="testowy";
    // GameWidgets::player=new OldPlayer(name,"Assets/playerSkin.jpg",5,3,0,0,100,100,0);
     //GameWidgets::oponent=new OldPlayer("CPU2000","Assets/opponentSkin.jpg",1,1,0,0,100,100,1);
-    GameWidgets::player=new Player(name,"Assets/playerSkin.jpg",5,3,0,0,100,100,0);
-    GameWidgets::oponent=new Fighter("CPU2000","Assets/opponentSkin.jpg",1,1,0,0,100,100,1);
+  // GameWidgets::player=new Player(name,"Assets/playerSkin.jpg",5,3,100,100,1,false,0);
+    //GameWidgets::oponent=new Fighter("CPU2000","Assets/opponentSkin.jpg",1,1,0,0,100,true,1);
     GameWidgets::playerNameText->setText(name);
     GameWidgets::playerHealthBar=new HealthBar({120.0,20.0},
 {200.0,300.0},GameWidgets::player->getMaxHealth());
